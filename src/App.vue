@@ -6,7 +6,9 @@ import HelloWorld from './components/HelloWorld.vue'
 <template>
   <header>
     <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+      <HelloWorld 
+      welcome="Welcome to the CEC App" 
+      sub="Calculate crypto earnings from crypto [dot] com!"/>
     </div>
   </header>
 
@@ -14,7 +16,6 @@ import HelloWorld from './components/HelloWorld.vue'
 </template>
 
 <style scoped>
-
 
 
 </style>

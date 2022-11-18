@@ -1,2 +1,11 @@
 @import './base.css';
 
+:root {
+  --brand-color: #061121;
+  --text-sub-color: #1199FA;
+}
+
+body { 
+  color: var(--vt-c-white);
+  background: var(--brand-color); 
+}

@@ -1,6 +1,10 @@
 <script setup>
 defineProps({
-  msg: {
+  welcome: {
+    type: String,
+    required: true
+  },
+  sub: {
     type: String,
     required: true
   }
@@ -8,9 +12,20 @@ defineProps({
 </script>
 
 <template>
-
+  <div class="container">
+    <h1>{{ welcome }}</h1>
+    <p class="subtitle">{{ sub }}</p>
+  </div>
 </template>
 
 <style scoped>
+
+.container {
+  padding: 20px;
+}
+
+.subtitle {
+  color: var(--text-sub-color);
+}
 
 </style>
