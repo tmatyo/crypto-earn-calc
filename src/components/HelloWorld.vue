@@ -22,6 +22,7 @@ defineProps({
 
 .container {
   padding: 20px;
+  margin-bottom: 50px;
 }
 
 .subtitle {
