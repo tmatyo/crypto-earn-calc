@@ -1,11 +1,30 @@
-<script setup>
+<script>
+
+import { reactive } from 'vue';
+
+export default {
+
+  setup() {
+    const state = reactive({ csv: {}, dropzoneState: false })
+
+    const toggleActive = () => state.dropzoneState = !state.dropzoneState
+
+    return { state, toggleActive }
+  }
+
+}
 
 </script>
 
 <template>
 
 <div class="welcome">
-  <div class="upload">
+  <div class="upload"
+    @dragover.prevent
+    @dragenter.prevent="toggleActive"
+    @dragleave.prevent="toggleActive"
+    @drop.prevent="toggleActive"
+    :class="{ 'active-upload' : state.dropzoneState }" >
     <p>Drag and drop your CSV file here</p>
     <span>OR</span>
     <label for="dd">Choose file</label>
@@ -71,6 +90,16 @@
 
 .welcome .upload-footer li {
   margin-left: 2em;
+}
+
+.upload.active-upload {
+  border: 3px dashed var(--text-sub-color);
+  color: var(--text-sub-color);
+}
+
+.upload.active-upload label {
+  background: var(--text-sub-color);
+  color: #fff;
 }
 
 </style>
