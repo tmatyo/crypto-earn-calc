@@ -23,9 +23,10 @@ defineProps({
 .container {
   padding: 20px;
   margin-bottom: 50px;
+  text-align: center;
 }
 
-.subtitle {
+.container .subtitle {
   color: var(--text-sub-color);
 }
 
