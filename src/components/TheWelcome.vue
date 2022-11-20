@@ -1,15 +1,59 @@
 <script>
-
-import { reactive } from 'vue';
-
 export default {
+  data() {
+    return {
+      files: [],
+      csv: {},
+      dropzoneState: false
+    }
 
-  setup() {
-    const state = reactive({ csv: {}, dropzoneState: false })
+  },
+  methods: {
+    toggleActive(e) {
+      if(["dragover", 
+      "dragenter", 
+      "dragleave", 
+      "drop"].indexOf(e.type) + 1) {
+        e.dataTransfer.dropEffect = "move";
+      }
 
-    const toggleActive = () => state.dropzoneState = !state.dropzoneState
+      this.dropzoneState = !this.dropzoneState;
+      var files;
+      
+      if (e.type == "change") {
+        files = e.target.files;
+      }
 
-    return { state, toggleActive }
+      if(e.type == "drop"){
+        files = e.dataTransfer.files;
+      }
+
+      if(e.type == "drop" || e.type == "change") {
+        console.log(1);
+        console.log(files);
+        console.log("File name: ", files[0].name);
+        console.log("File type: ", files[0].type);
+        console.log("File size: ", files[0].size);
+
+        var self = this;
+        this.$papa.parse(files[0], {
+          complete: function(res) {
+            self.csv = res;
+            self.workWithData();
+          }
+        });
+        console.log(2);
+      }
+
+    },
+    workWithData() {
+      console.log(this.csv.data);
+
+    }
+
+  },
+  mounted() {
+      //alert(this.dropzoneState);
   }
 
 }
@@ -24,11 +68,12 @@ export default {
     @dragenter.prevent="toggleActive"
     @dragleave.prevent="toggleActive"
     @drop.prevent="toggleActive"
-    :class="{ 'active-upload' : state.dropzoneState }" >
+    :class="{ 'active-upload' : this.dropzoneState }" >
     <p>Drag and drop your CSV file here</p>
     <span>OR</span>
-    <label for="dd">Choose file</label>
-    <input type="file" id="dd">
+    <label for="dd"
+      @click="toggleActive" >Choose file</label>
+    <input type="file" id="dd" @change="toggleActive">
   </div>
   <div class="upload-footer">
     <p>HOW IT WORKS:</p>
@@ -36,7 +81,8 @@ export default {
       <li>Export your transactions from the crypto [dot] com app as a CSV file</li>
       <li>Drag and drop the CSV in the dashed square above and let your PC/Phone do all the work for you</li>
     </ol>
-    <p>IMPORTANT: This is a browser app. Meaning: it has no server side. The file won't be sent anywhere, all calculations will be done on your device. YOUR DATA WON'T LEAVE THE BROWSER!</p>
+    <p>IMPORTANT: </p>
+    <p>This is a browser app. Meaning: it has no server side. The file won't be sent anywhere, all calculations will be done on your device.<br>YOUR DATA WON'T LEAVE THE BROWSER!</p>
   </div>
 </div>
 
@@ -82,10 +128,11 @@ export default {
 .welcome .upload-footer {
   display: flex;
   flex-direction: column;
-  margin-top: 50px;
+  margin: 50px 0;
   width: 70vw;
   line-height: 2;
   row-gap: 20px;
+  font-size: small;
 }
 
 .welcome .upload-footer li {
