@@ -29,12 +29,17 @@ export default {
       }
 
       if(e.type == "drop" || e.type == "change") {
+
         console.log(1);
         console.log(files);
         console.log("File name: ", files[0].name);
         console.log("File type: ", files[0].type);
         console.log("File size: ", files[0].size);
 
+        if(files[0].type != "text/csv") {
+          return;
+        }
+        
         var self = this;
         this.$papa.parse(files[0], {
           complete: function(res) {
