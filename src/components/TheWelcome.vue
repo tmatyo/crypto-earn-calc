@@ -9,7 +9,7 @@ export default {
 
   },
   methods: {
-    toggleActive(e) {
+    toggleActive(e) { // dealing with all file upload + related events
       if(["dragover", 
       "dragenter", 
       "dragleave", 
@@ -20,14 +20,17 @@ export default {
       this.dropzoneState = !this.dropzoneState;
       var files;
       
+      // gather files from input
       if (e.type == "change") {
         files = e.target.files;
       }
 
+      // fetch files from dropzone
       if(e.type == "drop"){
         files = e.dataTransfer.files;
       }
 
+      // if there is a file to work with ...
       if(e.type == "drop" || e.type == "change") {
 
         console.log(1);
@@ -36,13 +39,18 @@ export default {
         console.log("File type: ", files[0].type);
         console.log("File size: ", files[0].size);
 
+        // ... and it is in fact a CSV file ...
         if(files[0].type != "text/csv") {
           return;
         }
         
+        // JS shenaningas
         var self = this;
+
+        // ... parse it with papaparse
         this.$papa.parse(files[0], {
           complete: function(res) {
+            // saving parsed JSON and handing over to next method for calculations
             self.csv = res;
             self.workWithData();
           }
@@ -51,7 +59,8 @@ export default {
       }
 
     },
-    workWithData() {
+    workWithData() { 
+      // TO DO: passing data to another view, adding state management, do calculations, render on fancy front end, keep reactivity/interactivity
       console.log(this.csv.data);
 
     }
