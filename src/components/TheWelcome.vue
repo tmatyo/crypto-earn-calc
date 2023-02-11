@@ -1,4 +1,6 @@
 <script>
+import { useTransactionStore } from '../stores/TransactionStore';
+
 export default {
   data() {
     return {
@@ -60,9 +62,13 @@ export default {
 
     },
     workWithData() { 
-      // TO DO: passing data to another view, adding state management, do calculations, render on fancy front end, keep reactivity/interactivity
+      // TO DO: calculations, render on fancy front end, keep reactivity/interactivity
       console.log(this.csv.data);
 
+      // adding state management
+      var tas = useTransactionStore();
+      tas.addTransactions(this.csv.data);
+      this.$router.push({name: 'about'});
     }
 
   },
