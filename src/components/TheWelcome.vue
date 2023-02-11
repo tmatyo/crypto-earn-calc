@@ -21,7 +21,7 @@ export default {
       var files;
       
       // gather files from input
-      if (e.type == "change") {
+      if(e.type == "change") {
         files = e.target.files;
       }
 
