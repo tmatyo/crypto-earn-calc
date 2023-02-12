@@ -1,23 +1,39 @@
 <script>
-import { useTransactionStore } from '../stores/TransactionStore';
+  import { useTransactionStore } from '../stores/TransactionStore'
 
-export default {
-    setup() {
-        const tas = useTransactionStore();
-        
-        return { tas }
-    }    
-    
-}
+  export default {
+    data() {
+      return {
+        goon: false,
+        tas: ''
+      }
+    },
+    methods: {
+
+    },
+    created() {
+      this.tas = useTransactionStore();
+      
+      if(this.tas.isEmpty) {
+        // results page is opened, but no data was provided? redirect to home page
+        this.$router.push({name:'home'});
+      } else {
+        // preventing premature rendering and filling console log with errors because missing data
+        this.goon = true;
+      }
+      
+    }
+  }
 
 </script>
 
+
 <template>
-  <div class="about">
+  <div class="about" v-if="this.goon">
     <h1>This is an about page</h1>
-    <p v-if="!tas.isEmpty">File is uploaded and we CAN work with it :)</p>
-    <p v-if="tas.isEmpty">File is uploaded we CANNOT work with it :(</p>
-    <p>Number of transactions {{ tas.count }}</p>
+    <p v-if="!this.tas.isEmpty">File is uploaded and we CAN work with it :)</p>
+    <p v-if="this.tas.isEmpty">File is uploaded we CANNOT work with it :(</p>
+    <p>Number of transactions {{ this.tas.count }}</p>
 
     <table class="results">
         <tr>
@@ -32,7 +48,7 @@ export default {
             <th>N.A. in USD</th>
             <th>Tr. Kind</th>
         </tr>
-        <tr v-for="t in tas.transactions[0].slice(2)">
+        <tr v-for="t in this.tas.transactions[0].slice(2)">
             <td>{{ t.timestamp_utc }}</td>
             <td>{{ t.transaction_description }}</td>
             <td>{{ t.currency }}</td>

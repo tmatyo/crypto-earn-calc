@@ -6,9 +6,9 @@ export const useTransactionStore = defineStore ('transactionStore', {
     }),
     getters: {
         count() {
-            return this.transactions.length;
+            return this.transactions[0].length;
         },
-        isEmtpy() {
+        isEmpty() {
             return this.transactions.length === 0;
         }
     },
