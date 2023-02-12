@@ -3,10 +3,11 @@ import { useTransactionStore } from '../stores/TransactionStore';
 
 export default {
     setup() {
-        const tas = useTransactionStore();    
-
+        const tas = useTransactionStore();
+        
         return { tas }
     }    
+    
 }
 
 </script>
@@ -20,28 +21,28 @@ export default {
 
     <table class="results">
         <tr>
-            <th>{{ tas.transactions[0][0][0] }}</th>
-            <th>{{ tas.transactions[0][0][1] }}</th>
-            <th>{{ tas.transactions[0][0][2] }}</th>
-            <th>{{ tas.transactions[0][0][3] }}</th>
-            <th>{{ tas.transactions[0][0][4] }}</th>
-            <th>{{ tas.transactions[0][0][5] }}</th>
-            <th>{{ tas.transactions[0][0][6] }}</th>
-            <th>{{ tas.transactions[0][0][7] }}</th>
-            <th>{{ tas.transactions[0][0][8] }}</th>
-            <th>{{ tas.transactions[0][0][9] }}</th>
+            <th>Timestamp</th>
+            <th>Description</th>
+            <th>Currency</th>
+            <th>Amount</th>
+            <th>To Currency</th>
+            <th>To Amount</th>
+            <th>Native Currency</th>
+            <th>Native Amount</th>
+            <th>N.A. in USD</th>
+            <th>Tr. Kind</th>
         </tr>
         <tr v-for="t in tas.transactions[0].slice(2)">
-            <td>{{ t[0] }}</td>
-            <td>{{ t[1] }}</td>
-            <td>{{ t[2] }}</td>
-            <td>{{ t[3] }}</td>
-            <td>{{ t[4] }}</td>
-            <td>{{ t[5] }}</td>
-            <td>{{ t[6] }}</td>
-            <td>{{ t[7] }}</td>
-            <td>{{ t[8] }}</td>
-            <td>{{ t[9] }}</td>
+            <td>{{ t.timestamp_utc }}</td>
+            <td>{{ t.transaction_description }}</td>
+            <td>{{ t.currency }}</td>
+            <td>{{ t.amount }}</td>
+            <td>{{ t.to_currency }}</td>
+            <td>{{ t.to_amount }}</td>
+            <td>{{ t.native_currency }}</td>
+            <td>{{ t.native_amount }}</td>
+            <td>{{ t.native_amount_in_usd }}</td>
+            <td>{{ t.transaction_kind }}</td>
         </tr>
     </table>
   </div>

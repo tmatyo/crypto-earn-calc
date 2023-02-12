@@ -11,7 +11,7 @@ export default {
 
   },
   methods: {
-    toggleActive(e) { // dealing with all file upload + related events
+    toggleActive(e) { // dealing with all file upload + related events, NEEDS WORK
       if(["dragover", 
       "dragenter", 
       "dragleave", 
@@ -51,6 +51,10 @@ export default {
 
         // ... parse it with papaparse
         this.$papa.parse(files[0], {
+          header: true,
+          transformHeader: function(h) {
+            return h.toLowerCase().replaceAll("(","").replaceAll(")","").replaceAll(" ", "_");
+          },
           complete: function(res) {
             // saving parsed JSON and handing over to next method for calculations
             self.csv = res;
@@ -68,6 +72,8 @@ export default {
       // adding state management
       var tas = useTransactionStore();
       tas.addTransactions(this.csv.data);
+
+      // render fancy report
       this.$router.push({name: 'about'});
     }
 
