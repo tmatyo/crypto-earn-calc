@@ -4,7 +4,7 @@
   export default {
     data() {
       return {
-        goon: false,
+        goOn: false,
         tas: ''
       }
     },
@@ -19,7 +19,7 @@
         this.$router.push({name:'home'});
       } else {
         // preventing premature rendering and filling console log with errors because missing data
-        this.goon = true;
+        this.goOn = true;
       }
       
     }
@@ -48,7 +48,7 @@
             <th>N.A. in USD</th>
             <th>Tr. Kind</th>
         </tr>
-        <tr v-for="t in this.tas.transactions[0].slice(2)">
+        <tr v-for="t in this.tas.transactions[0]">
             <td>{{ t.timestamp_utc }}</td>
             <td>{{ t.transaction_description }}</td>
             <td>{{ t.currency }}</td>
