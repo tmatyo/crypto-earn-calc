@@ -5,11 +5,14 @@ export const useTransactionStore = defineStore ('transactionStore', {
         transactions: []
     }),
     getters: {
-        count() {
+        getCount() {
             return this.transactions[0].length;
         },
         isEmpty() {
             return this.transactions.length === 0;
+        },
+        getNativeCurrency() {
+            return this.transactions[0][0].native_currency;
         }
     },
     actions: {

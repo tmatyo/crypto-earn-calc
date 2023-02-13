@@ -29,11 +29,12 @@
 
 
 <template>
-  <div class="about" v-if="this.goon">
+  <div class="about" v-if="this.goOn">
     <h1>This is an about page</h1>
     <p v-if="!this.tas.isEmpty">File is uploaded and we CAN work with it :)</p>
     <p v-if="this.tas.isEmpty">File is uploaded we CANNOT work with it :(</p>
-    <p>Number of transactions {{ this.tas.count }}</p>
+    <p>Number of transactions {{ this.tas.getCount }}</p>
+    <p>Users native currency is {{ this.tas.getNativeCurrency }}</p>
 
     <table class="results">
         <tr>
