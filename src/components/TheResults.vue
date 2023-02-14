@@ -5,14 +5,25 @@
     data() {
       return {
         goOn: false,
-        tas: ''
+        tas: '',
+        deposit: {
+          count: 0,
+          min: 0,
+          max: 0,
+          avg: 0
+        }
       }
     },
     methods: {
+      calculate(data) {
 
+        return data;
+      }
     },
     created() {
       this.tas = useTransactionStore();
+
+      this.deposit = this.tas.getDepositInfo();
       
       if(this.tas.isEmpty) {
         // results page is opened, but no data was provided? redirect to home page
@@ -35,6 +46,13 @@
     <p v-if="this.tas.isEmpty">File is uploaded we CANNOT work with it :(</p>
     <p>Number of transactions {{ this.tas.getCount }}</p>
     <p>Users native currency is {{ this.tas.getNativeCurrency }}</p>
+    <p>Deposit data: </p>
+    <ul>
+      <li>Sum: {{ this.deposit.get }}</li>
+      <li>Min: {{ this.deposit.min }}</li>
+      <li>Max: {{ this.deposit.max }}</li>
+      <li>Avg: {{ this.deposit.avg }}</li>
+    </ul>
 
     <table class="results">
         <tr>
