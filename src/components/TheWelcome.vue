@@ -52,6 +52,7 @@ export default {
         // ... parse it with papaparse
         this.$papa.parse(files[0], {
           skipEmptyLines: true,
+          dynamicTyping: true,
           header: true,
           transformHeader: function(h) {
             return h.toLowerCase().replaceAll("(","").replaceAll(")","").replaceAll(" ", "_");
@@ -100,7 +101,7 @@ export default {
     <span>OR</span>
     <label for="dd"
       @click="toggleActive" >Choose file</label>
-    <input type="file" id="dd" @change="toggleActive">
+    <input type="file" id="dd" accept=".csv" @change="toggleActive">
   </div>
   <div class="upload-footer">
     <p>HOW IT WORKS:</p>

@@ -32,13 +32,13 @@ export const useTransactionStore = defineStore ('transactionStore', {
 
             if(a.length > 0) {
                 a.sort((a,b) => a - b, 0);
-                let sum = a.reduce((a,b) => parseFloat(a) + parseFloat(b), 0);
+                let sum = a.reduce((a,b) => a + b, 0);
                 let c = this.getNativeCurrency;
 
                 b.count = a.length;
-                b.min = parseFloat(a[0]) + " " + c;
-                b.max = parseFloat(a[a.length-1]) + " " + c;
-                b.avg = (sum / parseFloat(a.length)).toFixed(2) + " " + c;
+                b.min = a[0] + " " + c;
+                b.max = a[a.length-1] + " " + c;
+                b.avg = (sum / a.length).toFixed(2) + " " + c;
                 b.sum = sum + " " + c;
             }
 
