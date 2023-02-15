@@ -51,6 +51,7 @@ export default {
 
         // ... parse it with papaparse
         this.$papa.parse(files[0], {
+          skipEmptyLines: true,
           header: true,
           transformHeader: function(h) {
             return h.toLowerCase().replaceAll("(","").replaceAll(")","").replaceAll(" ", "_");
