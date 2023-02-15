@@ -40,7 +40,7 @@
     </ul>
 
     <table class="results">
-        <tr>
+        <tr class="results-header">
             <th>Timestamp</th>
             <th>Description</th>
             <th>Currency</th>
@@ -69,9 +69,31 @@
 </template>
 
 <style>
-@media (min-width: 1024px) {
-  .about {
-    min-height: 100vh;
-  }
+
+.results {
+    border: 1px solid var(--color-text);
+    border-collapse: collapse;
+    width: 100%;
 }
+
+.results .results-header {
+    background: var(--color-text);
+}
+
+.results .results-header th {
+    font-size: 12px;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+.results tr:nth-of-type(odd) {
+    background: var(--color-text);
+}
+
+.results td {
+    font-size: 11px;
+    padding: 5px;
+    text-align: center;
+}
+
 </style>
