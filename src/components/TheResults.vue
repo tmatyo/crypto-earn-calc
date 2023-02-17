@@ -30,6 +30,7 @@
     <p v-if="tas.isEmpty">File is uploaded we CANNOT work with it :(</p>
     <p>Number of transactions {{ tas.getCount }}</p>
     <p>Users native currency is {{ tas.getNativeCurrency }}</p>
+    <br>
     <p>Deposit data: </p>
     <ul>
       <li>Count: {{ tas.getDepositInfo.count }}</li>
@@ -38,6 +39,8 @@
       <li>Avg: {{ tas.getDepositInfo.avg }}</li>
       <li>Sum: {{ tas.getDepositInfo.sum }}</li>
     </ul>
+    <br>
+    <p>Investment duration is {{ tas.getInvestmentDurationInDays }} days.</p>
 
     <table class="results">
         <tr class="results-header">
