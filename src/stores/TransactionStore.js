@@ -48,11 +48,43 @@ export const useTransactionStore = defineStore ('transactionStore', {
             let ta = this.transactions[0];
 
             let lastTransaction = new Date(ta[0].timestamp_utc);
-            console.log("🚀 ~ file: TransactionStore.js:49 ~ getInvestmentDurationInDays ~ this.transactions[0][0].timestamp_utc", this.transactions[0][0].timestamp_utc)
             let firstTransaction = new Date(ta[ta.length-1].timestamp_utc);
-            console.log("🚀 ~ file: TransactionStore.js:51 ~ getInvestmentDurationInDays ~ this.transactions[0][this.transactions.length-1].timestamp_utc", this.transactions[0][this.transactions.length-1].timestamp_utc)
 
             return ((lastTransaction - firstTransaction) / 1000 / 60 / 60 / 24);
+        },
+        getRewardSum() {
+            var sum = 0;
+            var details = [];
+            
+            this.transactions[0].forEach((t) => {
+                if(t.transaction_description.includes("Reward")
+                || t.transaction_description == "Crypto Earn"
+                || t.transaction_description == "Card Cashback"
+                || t.transaction_description.includes("Credit")) {
+
+                    sum += t.native_amount;
+
+                    const exists = details.findIndex(i => i.currency == t.currency);
+
+                    if(exists == -1) {
+                        details.push({
+                            currency: t.currency,
+                            amount: t.amount,
+                            native_amount: t.native_amount
+                        })
+                    } else {
+                        details[exists].amount += t.amount;
+                        details[exists].native_amount += t.native_amount;
+                    }
+                }
+            });
+
+            console.log('🔥', details);
+
+            return {
+                rewards: details,
+                sum: sum.toFixed(2)
+            };
         }
     },
     actions: {

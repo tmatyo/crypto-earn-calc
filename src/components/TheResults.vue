@@ -41,6 +41,11 @@
     </ul>
     <br>
     <p>Investment duration is {{ tas.getInvestmentDurationInDays }} days.</p>
+    <br>
+    <p>Rewards total: {{ tas.getRewardSum.sum }} {{ tas.getNativeCurrency }}. Namely:</p>
+    <ul>
+      <li v-for="r in tas.getRewardSum.rewards">{{ r.amount }} {{ r.currency }} ({{ r.native_amount.toFixed(2) + " " + tas.getNativeCurrency }})</li>
+    </ul>
 
     <table class="results">
         <tr class="results-header">
