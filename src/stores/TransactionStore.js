@@ -54,7 +54,8 @@ export const useTransactionStore = defineStore ('transactionStore', {
         },
         getRewardSum() {
             var sum = 0;
-            var details = [];
+            var byCurrency = [];
+            var byType = [];
             
             this.transactions.forEach((t) => {
                 if(t.transaction_description.includes("Reward")
@@ -62,27 +63,40 @@ export const useTransactionStore = defineStore ('transactionStore', {
                 || t.transaction_description == "Card Cashback"
                 || t.transaction_description.includes("Credit")) {
 
+                    // total sum of rewards received
                     sum += t.native_amount;
 
-                    const exists = details.findIndex(i => i.currency == t.currency);
+                    // total sum of rewards by crypto currency
+                    const exists = byCurrency.findIndex(i => i.currency == t.currency);
 
                     if(exists == -1) {
-                        details.push({
+                        byCurrency.push({
                             currency: t.currency,
                             amount: t.amount,
                             native_amount: t.native_amount
                         })
                     } else {
-                        details[exists].amount += t.amount;
-                        details[exists].native_amount += t.native_amount;
+                        byCurrency[exists].amount += t.amount;
+                        byCurrency[exists].native_amount += t.native_amount;
+                    }
+
+                    // total sum of rewards by type
+                    const type = byType.findIndex(i => i.type == t.transaction_description);
+
+                    if(type == -1) {
+                        byType.push({
+                            type: t.transaction_description,
+                            native_amount: t.native_amount
+                        });
+                    } else {
+                        byType[type].native_amount += t.native_amount;
                     }
                 }
             });
 
-            console.log('🔥', details);
-
             return {
-                rewards: details,
+                byCurrency,
+                byType,
                 sum: sum.toFixed(2)
             };
         }
