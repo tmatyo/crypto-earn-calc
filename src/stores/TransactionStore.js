@@ -49,7 +49,7 @@ export const useTransactionStore = defineStore ('transactionStore', {
             weeks = Math.floor(days / 7);
             years = Math.floor(days / 364);
 
-            return { days, weeks, years, };
+            return { days, weeks, years };
         },
         getRewardSum() {
             var sum = 0, byCurrency = [], byType = [];

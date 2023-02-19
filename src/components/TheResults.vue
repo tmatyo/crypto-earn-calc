@@ -40,7 +40,7 @@
       <li>Sum: {{ tas.getDepositInfo.sum }}</li>
     </ul>
     <br>
-    <p>Investment duration is {{ tas.getInvestmentDurationInDays }} days.</p>
+    <p>Investment duration is {{ tas.getInvestmentDurationInDays.days }} days.</p>
     <br>
     <p>Rewards total: {{ tas.getRewardSum.sum + " " + tas.getNativeCurrency }}. Namely:</p>
     <ul>
