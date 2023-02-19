@@ -43,7 +43,7 @@ export const useTransactionStore = defineStore ('transactionStore', {
 
             //let lastTransaction = new Date(ta[0].timestamp_utc);
             let firstTransaction = new Date(ta[ta.length-1].timestamp_utc);
-            let now = now;
+            let now = Date.now();
 
             days = Math.floor((now - firstTransaction) / 1000 / 60 / 60 / 24);
             weeks = Math.floor(days / 7);
