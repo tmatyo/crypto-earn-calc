@@ -30,13 +30,11 @@ export const useTransactionStore = defineStore ('transactionStore', {
             if(a.length > 0) {
                 a.sort((a,b) => a.native_amount - b.native_amount, 0);
                 a.forEach((i) => b.sum += i.native_amount);
-                let c = this.getNativeCurrency;
 
                 b.count = a.length;
-                b.min = a[0].native_amount + " " + c;
-                b.max = a[a.length-1].native_amount + " " + c;
-                b.avg = (b.sum / a.length).toFixed(2) + " " + c;
-                b.sum = b.sum + " " + c;
+                b.min = a[0].native_amount;
+                b.max = a[a.length-1].native_amount;
+                b.avg = (b.sum / a.length).toFixed(2);
                 b.minDate = a[0].timestamp_utc;
                 b.maxDate = a[a.length-1].timestamp_utc;
             }
@@ -76,7 +74,7 @@ export const useTransactionStore = defineStore ('transactionStore', {
                             currency: t.currency,
                             amount: t.amount,
                             native_amount: t.native_amount
-                        })
+                        });
                     } else {
                         byCurrency[exists].amount += t.amount;
                         byCurrency[exists].native_amount += t.native_amount;
