@@ -6,13 +6,13 @@ export const useTransactionStore = defineStore ('transactionStore', {
     }),
     getters: {
         getCount() {
-            return this.transactions[0].length;
+            return this.transactions.length;
         },
         isEmpty() {
             return this.transactions.length === 0;
         },
         getNativeCurrency() {
-            return this.transactions[0][0].native_currency;
+            return this.transactions[0].native_currency;
         },
         getDepositInfo() {
             var a = [];
@@ -24,7 +24,7 @@ export const useTransactionStore = defineStore ('transactionStore', {
                 sum: 0
             }
 
-            this.transactions[0].forEach( (t) => {
+            this.transactions.forEach( (t) => {
                 if(t.transaction_description.substring(0,3) == "Buy") {
                     a.push(t.native_amount);
                 }
@@ -45,7 +45,7 @@ export const useTransactionStore = defineStore ('transactionStore', {
             return b;
         },
         getInvestmentDurationInDays() {
-            let ta = this.transactions[0];
+            let ta = this.transactions;
 
             let lastTransaction = new Date(ta[0].timestamp_utc);
             let firstTransaction = new Date(ta[ta.length-1].timestamp_utc);
@@ -56,7 +56,7 @@ export const useTransactionStore = defineStore ('transactionStore', {
             var sum = 0;
             var details = [];
             
-            this.transactions[0].forEach((t) => {
+            this.transactions.forEach((t) => {
                 if(t.transaction_description.includes("Reward")
                 || t.transaction_description == "Crypto Earn"
                 || t.transaction_description == "Card Cashback"
@@ -89,7 +89,7 @@ export const useTransactionStore = defineStore ('transactionStore', {
     },
     actions: {
         addTransactions(ta) {
-            this.transactions.push(ta);
+            this.transactions = ta;
         }
     }
 })

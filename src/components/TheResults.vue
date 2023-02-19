@@ -60,7 +60,7 @@
             <th>N.A. in USD</th>
             <th>Tr. Kind</th>
         </tr>
-        <tr v-for="t in tas.transactions[0]">
+        <tr v-for="t in tas.transactions">
             <td>{{ t.timestamp_utc }}</td>
             <td>{{ t.transaction_description }}</td>
             <td>{{ t.currency }}</td>
