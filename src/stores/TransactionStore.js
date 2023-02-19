@@ -16,13 +16,7 @@ export const useTransactionStore = defineStore ('transactionStore', {
         },
         getDepositInfo() {
             var a = [];
-            var b = {
-                count: 0,
-                min: 0,
-                max: 0,
-                avg: 0,
-                sum: 0
-            }
+            var b = { count: 0, min: 0, max: 0, avg: 0, sum: 0 };
 
             this.transactions.forEach( (t) => {
                 if(t.transaction_description.substring(0,3) == "Buy") {
@@ -45,17 +39,20 @@ export const useTransactionStore = defineStore ('transactionStore', {
             return b;
         },
         getInvestmentDurationInDays() {
-            let ta = this.transactions;
+            let ta = this.transactions, days = 0, weeks = 0, years = 0;
 
-            let lastTransaction = new Date(ta[0].timestamp_utc);
+            //let lastTransaction = new Date(ta[0].timestamp_utc);
             let firstTransaction = new Date(ta[ta.length-1].timestamp_utc);
+            let now = now;
 
-            return ((lastTransaction - firstTransaction) / 1000 / 60 / 60 / 24);
+            days = Math.floor((now - firstTransaction) / 1000 / 60 / 60 / 24);
+            weeks = Math.floor(days / 7);
+            years = Math.floor(days / 364);
+
+            return { days, weeks, years, };
         },
         getRewardSum() {
-            var sum = 0;
-            var byCurrency = [];
-            var byType = [];
+            var sum = 0, byCurrency = [], byType = [];
             
             this.transactions.forEach((t) => {
                 if(t.transaction_description.includes("Reward")
@@ -94,11 +91,7 @@ export const useTransactionStore = defineStore ('transactionStore', {
                 }
             });
 
-            return {
-                byCurrency,
-                byType,
-                sum: sum.toFixed(2)
-            };
+            return { byCurrency, byType, sum: sum.toFixed(2) };
         }
     },
     actions: {
