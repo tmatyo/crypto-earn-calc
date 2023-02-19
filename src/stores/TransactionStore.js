@@ -16,24 +16,29 @@ export const useTransactionStore = defineStore ('transactionStore', {
         },
         getDepositInfo() {
             var a = [];
-            var b = { count: 0, min: 0, max: 0, avg: 0, sum: 0 };
+            var b = { count: 0, min: 0, max: 0, avg: 0, sum: 0, minDate: '', maxDate: '' };
 
             this.transactions.forEach( (t) => {
                 if(t.transaction_description.substring(0,3) == "Buy") {
-                    a.push(t.native_amount);
+                    a.push({
+                        native_amount: t.native_amount,
+                        timestamp_utc: t.timestamp_utc
+                    });
                 }
             });
-
+            
             if(a.length > 0) {
-                a.sort((a,b) => a - b, 0);
-                let sum = a.reduce((a,b) => a + b, 0);
+                a.sort((a,b) => a.native_amount - b.native_amount, 0);
+                a.forEach((i) => b.sum += i.native_amount);
                 let c = this.getNativeCurrency;
 
                 b.count = a.length;
-                b.min = a[0] + " " + c;
-                b.max = a[a.length-1] + " " + c;
-                b.avg = (sum / a.length).toFixed(2) + " " + c;
-                b.sum = sum + " " + c;
+                b.min = a[0].native_amount + " " + c;
+                b.max = a[a.length-1].native_amount + " " + c;
+                b.avg = (b.sum / a.length).toFixed(2) + " " + c;
+                b.sum = b.sum + " " + c;
+                b.minDate = a[0].timestamp_utc;
+                b.maxDate = a[a.length-1].timestamp_utc;
             }
 
             return b;

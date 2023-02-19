@@ -34,8 +34,8 @@
     <p>Deposit data: </p>
     <ul>
       <li>Count: {{ tas.getDepositInfo.count }}</li>
-      <li>Min: {{ tas.getDepositInfo.min }}</li>
-      <li>Max: {{ tas.getDepositInfo.max }}</li>
+      <li>Min: {{ tas.getDepositInfo.min }} ({{ tas.getDepositInfo.minDate }})</li>
+      <li>Max: {{ tas.getDepositInfo.max }} ({{ tas.getDepositInfo.maxDate }})</li>
       <li>Avg: {{ tas.getDepositInfo.avg }}</li>
       <li>Sum: {{ tas.getDepositInfo.sum }}</li>
     </ul>
