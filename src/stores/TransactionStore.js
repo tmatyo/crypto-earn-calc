@@ -2,7 +2,8 @@ import { defineStore } from "pinia";
 
 export const useTransactionStore = defineStore ('transactionStore', {
     state: () => ({
-        transactions: []
+        transactions: [],
+        exchangeRates: []
     }),
     getters: {
         getCount() {
@@ -100,6 +101,9 @@ export const useTransactionStore = defineStore ('transactionStore', {
     actions: {
         addTransactions(ta) {
             this.transactions = ta;
+        },
+        addExchangeRate(er) {
+            this.exchangeRates.push(er);
         }
     }
 })

@@ -1,12 +1,14 @@
 <script>
-import { useTransactionStore } from '../stores/TransactionStore';
+import { useTransactionStore } from '../stores/TransactionStore'
+import { getRate } from '../utils/ExchangeRates'
 
 export default {
   data() {
     return {
       files: [],
       csv: {},
-      dropzoneState: false
+      dropzoneState: false,
+      tas: {}
     }
 
   },
@@ -72,8 +74,8 @@ export default {
       console.log(this.csv.data);
 
       // adding state management
-      var tas = useTransactionStore();
-      tas.addTransactions(this.csv.data);
+      //var tas = useTransactionStore();
+      this.tas.addTransactions(this.csv.data);
 
       // render fancy report
       this.$router.push({name: 'about'});
@@ -82,6 +84,11 @@ export default {
   },
   mounted() {
       //alert(this.dropzoneState);
+  },
+  created() {
+
+	  getRate('ETH', 'EUR');
+    this.tas = useTransactionStore();
   }
 
 }
@@ -111,6 +118,7 @@ export default {
     </ol>
     <p>IMPORTANT: </p>
     <p>This is a browser app. Meaning: it has no server side. The file won't be sent anywhere, all calculations will be done on your device.<br>YOUR DATA WON'T LEAVE THE BROWSER!</p>
+    <p v-for="c in this.tas.exchangeRates">1 {{ c.asset_id_base }} = {{ c.rate + " " + c.asset_id_quote }}</p>
   </div>
 </div>
 
