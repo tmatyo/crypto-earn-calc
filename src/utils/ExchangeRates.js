@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useTransactionStore } from "../stores/TransactionStore";
+import { useExchangeRateStore } from "../stores/ExchangeRateStore";
 
 const baseUrl = import.meta.env.VITE_COINAPI_BASE_URL;
 const exchangeRatePath = import.meta.env.VITE_COINAPI_EXCHANGE_RATE_PATH;
@@ -20,8 +20,8 @@ export function getRate(crypto, fiat) {
         console.log(res);
 
         // store it in global state
-        const tas = useTransactionStore();
-        tas.addExchangeRate(res.data);
+        const er = useExchangeRateStore();
+        er.addExchangeRate(res.data);
     })
     .catch((err) => console.error('🫠', err));
 }
