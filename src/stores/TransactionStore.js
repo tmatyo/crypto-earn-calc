@@ -12,6 +12,12 @@ export const useTransactionStore = defineStore ('transactionStore', {
         isEmpty() {
             return this.transactions.length === 0;
         },
+        isRatesEmpty() {
+            return this.exchangeRates.length === 0;
+        },
+        getRateCount() {
+            return this.exchangeRates.length;
+        },
         getNativeCurrency() {
             return this.transactions[0].native_currency;
         },
