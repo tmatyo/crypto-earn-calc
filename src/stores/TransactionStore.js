@@ -1,22 +1,15 @@
-import { defineStore } from "pinia";
+import { defineStore } from 'pinia';
 
 export const useTransactionStore = defineStore ('transactionStore', {
     state: () => ({
-        transactions: [],
-        exchangeRates: []
+        transactions: []
     }),
     getters: {
-        getCount() {
-            return this.transactions.length;
-        },
         isEmpty() {
             return this.transactions.length === 0;
         },
-        isRatesEmpty() {
-            return this.exchangeRates.length === 0;
-        },
-        getRateCount() {
-            return this.exchangeRates.length;
+        getCount() {
+            return this.transactions.length;
         },
         getNativeCurrency() {
             return this.transactions[0].native_currency;
@@ -107,9 +100,6 @@ export const useTransactionStore = defineStore ('transactionStore', {
     actions: {
         addTransactions(ta) {
             this.transactions = ta;
-        },
-        addExchangeRate(er) {
-            this.exchangeRates.push(er);
         }
     }
 })
