@@ -15,31 +15,41 @@ export const useTransactionStore = defineStore ('transactionStore', {
             return this.transactions[0].native_currency;
         },
         getDepositInfo() {
-            var a = [];
-            var b = { count: 0, min: 0, max: 0, avg: 0, sum: 0, minDate: '', maxDate: '' };
+            var buyList = [], depositInfo = { count: 0, min: 0, max: 0, avg: 0, sum: 0, minDate: '', maxDate: '', portfolio: [] };
 
             this.transactions.forEach( (t) => {
                 if(t.transaction_description.substring(0,3) == "Buy") {
-                    a.push({
+                    buyList.push({
                         native_amount: t.native_amount,
                         timestamp_utc: t.timestamp_utc
                     });
+
+                    const exists = depositInfo.portfolio.findIndex(i => i.currency == t.currency);
+
+                    if(exists == -1) {
+                        depositInfo.portfolio.push({
+                            currency: t.currency,
+                            amount: t.amount
+                        });
+                    } else {
+                        depositInfo.portfolio[exists].amount += t.amount;
+                    }
                 }
             });
             
-            if(a.length > 0) {
-                a.sort((a,b) => a.native_amount - b.native_amount, 0);
-                a.forEach((i) => b.sum += i.native_amount);
+            if(buyList.length > 0) {
+                buyList.sort((a,b) => a.native_amount - b.native_amount, 0);
+                buyList.forEach((i) => depositInfo.sum += i.native_amount);
 
-                b.count = a.length;
-                b.min = a[0].native_amount;
-                b.max = a[a.length-1].native_amount;
-                b.avg = (b.sum / a.length).toFixed(2);
-                b.minDate = a[0].timestamp_utc;
-                b.maxDate = a[a.length-1].timestamp_utc;
+                depositInfo.count = buyList.length;
+                depositInfo.min = buyList[0].native_amount;
+                depositInfo.max = buyList[buyList.length-1].native_amount;
+                depositInfo.avg = (depositInfo.sum / buyList.length).toFixed(2);
+                depositInfo.minDate = buyList[0].timestamp_utc;
+                depositInfo.maxDate = buyList[buyList.length-1].timestamp_utc;
             }
 
-            return b;
+            return depositInfo;
         },
         getInvestmentDurationInDays() {
             let ta = this.transactions, days = 0, weeks = 0, years = 0;

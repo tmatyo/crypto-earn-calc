@@ -28,27 +28,34 @@
     <h1>This is an about page</h1>
     <p v-if="!tas.isEmpty">File is uploaded and we CAN work with it :)</p>
     <p v-if="tas.isEmpty">File is uploaded we CANNOT work with it :(</p>
-    <p>Number of transactions {{ tas.getCount }}</p>
-    <p>Users native currency is {{ tas.getNativeCurrency }}</p>
+    <p>Number of transactions <span class="cec-important">{{ tas.getCount }}</span>. Users native currency is <span class="cec-important">{{ tas.getNativeCurrency }}</span>. Investment duration is <span class="cec-important">{{ tas.getInvestmentDurationInDays.days }}</span> days. Rewards total: <span class="cec-important">{{ tas.getRewardSum.sum + " " + tas.getNativeCurrency }}</span>.</p>
     <br>
     <p>Deposit data: </p>
     <ul>
-      <li>Count: {{ tas.getDepositInfo.count }}</li>
-      <li>Min: {{ tas.getDepositInfo.min + " " + tas.getNativeCurrency  }} ({{ tas.getDepositInfo.minDate }})</li>
-      <li>Max: {{ tas.getDepositInfo.max + " " + tas.getNativeCurrency  }} ({{ tas.getDepositInfo.maxDate }})</li>
-      <li>Avg: {{ tas.getDepositInfo.avg + " " + tas.getNativeCurrency  }}</li>
-      <li>Sum: {{ tas.getDepositInfo.sum + " " + tas.getNativeCurrency  }}</li>
+      <li>Count: <span class="cec-important">{{ tas.getDepositInfo.count }}</span></li>
+      <li>Min: <span class="cec-important">{{ tas.getDepositInfo.min + " " + tas.getNativeCurrency  }}</span> ({{ tas.getDepositInfo.minDate }})</li>
+      <li>Max: <span class="cec-important">{{ tas.getDepositInfo.max + " " + tas.getNativeCurrency  }}</span> ({{ tas.getDepositInfo.maxDate }})</li>
+      <li>Avg: <span class="cec-important">{{ tas.getDepositInfo.avg + " " + tas.getNativeCurrency  }}</span></li>
+      <li>Sum: <span class="cec-important">{{ tas.getDepositInfo.sum + " " + tas.getNativeCurrency  }}</span></li>
     </ul>
+    <p>Bought: </p>
+	<ul>
+		<li v-for="b in tas.getDepositInfo.portfolio">
+			{{ b.currency }} <span class="cec-important">{{ b.amount }}</span>
+		</li>
+	</ul>
     <br>
-    <p>Investment duration is {{ tas.getInvestmentDurationInDays.days }} days.</p>
-    <br>
-    <p>Rewards total: {{ tas.getRewardSum.sum + " " + tas.getNativeCurrency }}. Namely:</p>
+    <p>Rewards by currency:</p>
     <ul>
-      <li v-for="r in tas.getRewardSum.byCurrency">{{ r.currency + " " + r.amount + " (" + r.native_amount.toFixed(2) + " " + tas.getNativeCurrency }})</li>
+		<li v-for="r in tas.getRewardSum.byCurrency">
+			{{ r.currency }} <span class="cec-important">{{ r.amount }} </span> ( <span class="cec-important">{{ r.native_amount.toFixed(2) }} {{ tas.getNativeCurrency }}</span>)
+		</li>
     </ul>
-    <p>That is:</p>
+    <p>Rewards by type:</p>
     <ul>
-      <li v-for="r in tas.getRewardSum.byType">{{ r.type + ": " + r.native_amount.toFixed(2) + " " + tas.getNativeCurrency }}</li>
+    	<li v-for="r in tas.getRewardSum.byType">
+			{{ r.type }}: <span class="cec-important">{{ r.native_amount.toFixed(2) + " " + tas.getNativeCurrency }}</span>
+		</li>
     </ul>
 
     <table class="results">
@@ -106,6 +113,11 @@
     font-size: 11px;
     padding: 5px;
     text-align: center;
+}
+
+.cec-important {
+	font-weight: bold;
+	color: var(--text-sub-color);
 }
 
 </style>

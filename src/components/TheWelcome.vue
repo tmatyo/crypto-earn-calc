@@ -87,7 +87,7 @@ export default {
   },
   created() {
 
-	  getRate('ETH', 'EUR');
+	  //getRate('ETH', 'EUR');
     this.tas = useTransactionStore();
   }
 
