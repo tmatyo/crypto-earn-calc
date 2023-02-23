@@ -29,7 +29,8 @@ export const useTransactionStore = defineStore ('transactionStore', {
                     if(exists == -1) {
                         depositInfo.portfolio.push({
                             currency: t.currency,
-                            amount: t.amount
+                            amount: t.amount,
+                            native_amount: t.native_amount
                         });
                     } else {
                         depositInfo.portfolio[exists].amount += t.amount;
@@ -105,6 +106,24 @@ export const useTransactionStore = defineStore ('transactionStore', {
             });
 
             return { byCurrency, byType, sum: sum.toFixed(2) };
+        },
+        getAllCoins() {
+            var bought = this.getDepositInfo.portfolio;
+            var rewards = this.getRewardSum.byCurrency;
+
+            bought.forEach(b => {
+                var index = rewards.findIndex(r => r.currency == b.currency);
+
+                if(index == -1) {
+                    rewards.push(b);
+                } else {
+                    rewards[index].amount += b.amount;
+                    rewards[index].native_amount += b.native_amount;
+                }
+            });
+console.log('bought', bought);
+console.log('rewards', rewards);
+            return rewards;
         }
     },
     actions: {
