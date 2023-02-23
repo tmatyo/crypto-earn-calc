@@ -32,7 +32,9 @@
     <br>
 	<p>All my coins:</p>
 	<ul>
-		<li v-for="c in tas.getAllCoins">{{ c.currency }} <span class="cec-important">{{ c.amount }}</span></li>
+		<li v-for="c in tas.getAllCoins">
+			{{ c.currency }} <span class="cec-important">{{ c.amount }}</span> ( <span class="cec-important">{{ c.native_amount.toFixed(2) }} {{ tas.getNativeCurrency }}</span>)
+		</li>
 	</ul>
 	<br>
     <p>Deposit data: </p>
@@ -46,7 +48,7 @@
     <p>Bought: </p>
 	<ul>
 		<li v-for="b in tas.getDepositInfo.portfolio">
-			{{ b.currency }} <span class="cec-important">{{ b.amount }}</span>
+			{{ b.currency }} <span class="cec-important">{{ b.amount }}</span> ( <span class="cec-important">{{ b.native_amount.toFixed(2) }} {{ tas.getNativeCurrency }}</span>)
 		</li>
 	</ul>
     <br>
