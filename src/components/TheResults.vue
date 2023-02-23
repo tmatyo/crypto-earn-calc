@@ -28,11 +28,13 @@
     <h1>This is an about page</h1>
     <p v-if="!tas.isEmpty">File is uploaded and we CAN work with it :)</p>
     <p v-if="tas.isEmpty">File is uploaded we CANNOT work with it :(</p>
-    <p>Number of transactions <span class="cec-important">{{ tas.getCount }}</span>. Users native currency is <span class="cec-important">{{ tas.getNativeCurrency }}</span>. Investment duration is <span class="cec-important">{{ tas.getInvestmentDurationInDays.days }}</span> days. Rewards total: <span class="cec-important">{{ tas.getRewardSum.sum + " " + tas.getNativeCurrency }}</span>.</p>
+    <p>Number of transactions <span class="cec-important">{{ tas.getCount }}</span>. Users native currency is <span class="cec-important">{{ tas.getNativeCurrency }}</span>. 
+		Investment duration is <span class="cec-important">{{ tas.getInvestmentDurationInDays.days }}</span> days. Rewards total: <span class="cec-important">{{ tas.getRewardSum.sum + " " + tas.getNativeCurrency }}</span>.
+		Portfolio net worth based on buy price: <span class="cec-important">{{ tas.getAllCoins.sum + " " + tas.getNativeCurrency }}</span>.</p>
     <br>
 	<p>All my coins:</p>
 	<ul>
-		<li v-for="c in tas.getAllCoins">
+		<li v-for="c in tas.getAllCoins.rewards">
 			{{ c.currency }} <span class="cec-important">{{ c.amount }}</span> ( <span class="cec-important">{{ c.native_amount.toFixed(2) }} {{ tas.getNativeCurrency }}</span>)
 		</li>
 	</ul>

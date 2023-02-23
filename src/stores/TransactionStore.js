@@ -109,12 +109,14 @@ export const useTransactionStore = defineStore ('transactionStore', {
             return { byCurrency, byType, sum: sum.toFixed(2) };
         },
         getAllCoins() {
-            var bought = JSON.parse(JSON.stringify(this.getDepositInfo));
-            bought = bought.portfolio;
+            // removing reactivity, because f you, thats why
+            var b = JSON.parse(JSON.stringify(this.getDepositInfo));
+            bought = b.portfolio;
             
-            var rewards = JSON.parse(JSON.stringify(this.getRewardSum));
-            rewards = rewards.byCurrency;
+            var r = JSON.parse(JSON.stringify(this.getRewardSum));
+            rewards = r.byCurrency;
 
+            var sum = 0;
 
             bought.forEach(b => {
                 var index = rewards.findIndex(r => r.currency == b.currency);
@@ -123,11 +125,13 @@ export const useTransactionStore = defineStore ('transactionStore', {
                     rewards.push(b);
                 } else {
                     rewards[index].amount += b.amount;
-                    rewards[index].native_amount += b.native_amount
+                    rewards[index].native_amount += b.native_amount;
                 }
             });
 
-            return rewards;
+            rewards.forEach(i => sum += i.native_amount);
+
+            return { rewards, sum: sum.toFixed(2), checksum: b.sum + r.sum };
         }
     },
     actions: {
