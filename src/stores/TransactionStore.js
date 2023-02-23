@@ -34,6 +34,7 @@ export const useTransactionStore = defineStore ('transactionStore', {
                         });
                     } else {
                         depositInfo.portfolio[exists].amount += t.amount;
+                        depositInfo.portfolio[exists].native_amount += t.native_amount;
                     }
                 }
             });
@@ -108,8 +109,12 @@ export const useTransactionStore = defineStore ('transactionStore', {
             return { byCurrency, byType, sum: sum.toFixed(2) };
         },
         getAllCoins() {
-            var bought = this.getDepositInfo.portfolio;
-            var rewards = this.getRewardSum.byCurrency;
+            var bought = JSON.parse(JSON.stringify(this.getDepositInfo));
+            bought = bought.portfolio;
+            
+            var rewards = JSON.parse(JSON.stringify(this.getRewardSum));
+            rewards = rewards.byCurrency;
+
 
             bought.forEach(b => {
                 var index = rewards.findIndex(r => r.currency == b.currency);
@@ -118,11 +123,10 @@ export const useTransactionStore = defineStore ('transactionStore', {
                     rewards.push(b);
                 } else {
                     rewards[index].amount += b.amount;
-                    rewards[index].native_amount += b.native_amount;
+                    rewards[index].native_amount += b.native_amount
                 }
             });
-console.log('bought', bought);
-console.log('rewards', rewards);
+
             return rewards;
         }
     },
