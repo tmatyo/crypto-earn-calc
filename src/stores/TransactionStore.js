@@ -111,10 +111,9 @@ export const useTransactionStore = defineStore ('transactionStore', {
         getAllCoins() {
             // removing reactivity, because f you, thats why
             var b = JSON.parse(JSON.stringify(this.getDepositInfo));
-            bought = b.portfolio;
-            
+            var bought = b.portfolio;            
             var r = JSON.parse(JSON.stringify(this.getRewardSum));
-            rewards = r.byCurrency;
+            var rewards = r.byCurrency;
 
             var sum = 0;
 
