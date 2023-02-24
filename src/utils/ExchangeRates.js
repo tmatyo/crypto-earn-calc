@@ -36,7 +36,14 @@ export function getRate(crypto, fiat) {
 }
 
 function saveDataToStore(data) {
+    let { asset_id_base, asset_id_quote, rate, time } = data;
+
     // store it in global state
     const er = useExchangeRateStore();
-    er.addExchangeRate(data);
+    er.addExchangeRate({
+        currency: asset_id_base,
+        native_currency: asset_id_quote,
+        rate,
+        time
+    });
 }
