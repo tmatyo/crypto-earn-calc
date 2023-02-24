@@ -19,9 +19,24 @@ export function getRate(crypto, fiat) {
         console.log('🔥 Exchange rate:', crypto + " - " + fiat);
         console.log(res);
 
-        // store it in global state
-        const er = useExchangeRateStore();
-        er.addExchangeRate(res.data);
+        switch(res.status) {
+            case 200: saveDataToStore(res.data);
+            break;
+
+            case 429: console.log('🔥', 'Too many requests');
+            break
+            
+            default: console.log('🔥', 'Default case. Probably problems with the ajax req/res.');
+        }
     })
-    .catch((err) => console.error('🫠', err));
+    .catch((err) => {
+        // silent fail
+        console.log('🫠 ' + err.response.status, err.response.data.error);
+    });
+}
+
+function saveDataToStore(data) {
+    // store it in global state
+    const er = useExchangeRateStore();
+    er.addExchangeRate(data);
 }

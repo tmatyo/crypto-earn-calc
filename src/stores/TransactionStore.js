@@ -1,4 +1,6 @@
 import { defineStore } from 'pinia';
+import { getRate } from '../utils/ExchangeRates';
+import { useExchangeRateStore } from './ExchangeRateStore';
 
 export const useTransactionStore = defineStore ('transactionStore', {
     state: () => ({
@@ -128,7 +130,14 @@ export const useTransactionStore = defineStore ('transactionStore', {
                 }
             });
 
-            rewards.forEach(i => sum += i.native_amount);
+            rewards.forEach(i => {
+                sum += i.native_amount;
+                console.log('🧐 Iteration:', i);
+                getRate(i.currency, this.getNativeCurrency);
+            });
+
+            let er = useExchangeRateStore();
+            console.log(er.exchangeRates);
 
             return { rewards, sum: sum.toFixed(2), checksum: b.sum + r.sum };
         }
