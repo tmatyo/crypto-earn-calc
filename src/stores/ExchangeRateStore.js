@@ -11,6 +11,20 @@ export const useExchangeRateStore = defineStore('exchangeRateStore', {
         getCount() {
             return this.exchangeRates.length;
         },
+        getRate: (state) => (curr) => { // need work
+            if(state.isEmpty) {
+                console.warn('', "No rates yet");
+                return false;
+            }
+
+            var exists = state.exchangeRates.findIndex(i => i.currency == curr);
+
+            if(exists == -1) {
+                return false;
+            } else {
+                return state.exchangeRates[exists];
+            }
+        }
     },
     actions: {
         addExchangeRate(er) {
