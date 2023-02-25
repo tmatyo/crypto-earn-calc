@@ -16,17 +16,10 @@ export function getRate(crypto, fiat) {
         }
     })
     .then((res) => {
-        console.log('🔥 Exchange rate:', crypto + " - " + fiat);
-        console.log(res);
+        console.log('🔥 Exchange rate:', crypto + " - " + fiat + " >> " + res);
 
-        switch(res.status) {
-            case 200: saveDataToStore(res.data);
-            break;
-
-            case 429: console.log('🔥', 'Too many requests');
-            break
-            
-            default: console.log('🔥', 'Default case. Probably problems with the ajax req/res.');
+        if(res.status) {
+            saveDataToStore(res.data);
         }
     })
     .catch((err) => {
