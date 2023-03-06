@@ -16,6 +16,10 @@ export const useRenderDataStore = defineStore('renderDataStore', {
             yield: {
                 meta: {},
                 data: []
+            },
+            crypto: {
+                meta: {},
+                data: []
             }
         }
     }),
@@ -29,11 +33,11 @@ export const useRenderDataStore = defineStore('renderDataStore', {
         updateAll(a) {
             this.data = a;
         },
-        update(type, data) {
-            this.data[type] = data;
+        update(c, sc, d) {
+            this.data[c][sc] = d;
         },
-        pushTo(type, data) {
-            this.data[type].data.push(data);
+        pushTo(c, sc, d) {
+            this.data[c][sc].push(d);
         }
     }
 });
