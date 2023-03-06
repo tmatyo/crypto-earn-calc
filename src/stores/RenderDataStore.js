@@ -10,8 +10,6 @@ export const useRenderDataStore = defineStore('renderDataStore', {
             earnings: {
                 meta: {},
                 data: [],
-                bought: [],
-                free: []
             },
             yield: {
                 meta: {},
@@ -19,7 +17,8 @@ export const useRenderDataStore = defineStore('renderDataStore', {
             },
             crypto: {
                 meta: {},
-                data: []
+                bought: [],
+                free: []
             }
         }
     }),

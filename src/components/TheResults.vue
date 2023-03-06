@@ -1,10 +1,14 @@
 <script>
+  import { useRenderDataStore } from '../stores/RenderDataStore'
   import { useTransactionStore } from '../stores/TransactionStore'
   import { useRouter } from 'vue-router'
 
   export default {
     setup() {
     const tas = useTransactionStore();
+    const rd = useRenderDataStore();
+    console.log('💸', rd.data.expenses);
+    console.log('🪙', rd.data.crypto);
     const router = useRouter();
     var goOn = false;
 

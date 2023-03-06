@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import { getRate } from '../utils/ExchangeRates';
 import { useExchangeRateStore } from './ExchangeRateStore';
+import { useRenderDataStore } from './RenderDataStore';
 
 export const useTransactionStore = defineStore ('transactionStore', {
     state: () => ({
@@ -145,6 +146,63 @@ export const useTransactionStore = defineStore ('transactionStore', {
     actions: {
         addTransactions(ta) {
             this.transactions = ta;
+            this.sortItOut();
+        },
+        sortItOut() {
+            var buyList = [], portfolio = [], depositInfo = { count: 0, min: 0, max: 0, avg: 0, sum: 0, minDate: '', maxDate: '' };
+            const rd = useRenderDataStore();
+
+            this.transactions.forEach(t => {
+
+                // calculate expenses
+                if(t.transaction_description.substring(0,3) == "Buy") {
+                    buyList.push({
+                        // meta
+                        timestamp_utc: t.timestamp_utc,
+                        transaction_description: t.transaction_description,
+                        // crypto
+                        currency: t.currency,
+                        amount: t.amount,
+                        // fiat
+                        native_currency: t.native_currency,
+                        native_amount: t.native_amount,
+                    });
+
+                    // add crypto to portfolio
+                    const exists_exp = portfolio.findIndex(i => i.currency == t.currency);
+
+                    if(exists_exp == -1) { // doesnt exist? create new entry in portfolio
+                        portfolio.push({
+                            currency: t.currency,
+                            amount: t.amount,
+                            native_amount: t.native_amount
+                        });
+                    } else { // already exists? increment amount of this crypto in portfolio
+                        portfolio[exists_exp].amount += t.amount;
+                        portfolio[exists_exp].native_amount += t.native_amount;
+                    }
+                }
+            });
+
+            // calculate some basic analytics
+            if(buyList.length > 0) {
+                buyList.sort((a,b) => a.native_amount - b.native_amount, 0);
+                buyList.forEach((i) => depositInfo.sum += i.native_amount);
+
+                depositInfo.count = buyList.length;
+                depositInfo.min = buyList[0].native_amount;
+                depositInfo.max = buyList[buyList.length-1].native_amount;
+                depositInfo.avg = (depositInfo.sum / buyList.length).toFixed(2) * 1; // * 1 -> quickfix to change back to Number type, maybe don't do this in the future
+                depositInfo.minDate = buyList[0].timestamp_utc;
+                depositInfo.maxDate = buyList[buyList.length-1].timestamp_utc;
+            }
+
+            // save all info 
+            rd.update('expenses', 'meta', depositInfo);
+            rd.update('expenses', 'data', buyList);
+            
+            // update list of users crypto currencies
+            rd.update('crypto', 'bought', portfolio);
         }
     }
 })
