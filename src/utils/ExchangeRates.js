@@ -16,8 +16,7 @@ export function getRate(crypto, fiat) {
         }
     })
     .then((res) => {
-        console.log('🔥 Exchange rate:', crypto + " - " + fiat);
-        console.log(res);
+        console.log('🔥 Exchange rate:' + crypto + ' - ' + fiat, res);
 
         if(res.status) {
             saveDataToStore(res.data);
