@@ -33,7 +33,7 @@
     <p v-if="!tas.isEmpty">File is uploaded and we CAN work with it :)</p>
     <p v-if="tas.isEmpty">File is uploaded we CANNOT work with it :(</p>
     <p>Number of transactions <span class="cec-important">{{ tas.getCount }}</span>. Users native currency is <span class="cec-important">{{ tas.getNativeCurrency }}</span>. 
-		Investment duration is <span class="cec-important">{{ tas.getInvestmentDurationInDays.days }}</span> days. Rewards total: <span class="cec-important">{{ tas.getRewardSum.sum + " " + tas.getNativeCurrency }}</span>.
+		Investment duration is <span class="cec-important">{{ tas.getInvestmentDuration.days }}</span> days. Rewards total: <span class="cec-important">{{ tas.getRewardSum.sum + " " + tas.getNativeCurrency }}</span>.
 		Portfolio net worth based on buy price: <span class="cec-important">{{ tas.getAllCoins.sum + " " + tas.getNativeCurrency }}</span>.</p>
     <br>
 	<p>All my coins:</p>

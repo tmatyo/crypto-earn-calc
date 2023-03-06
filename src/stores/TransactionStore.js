@@ -56,7 +56,7 @@ export const useTransactionStore = defineStore ('transactionStore', {
 
             return depositInfo;
         },
-        getInvestmentDurationInDays() {
+        getInvestmentDuration() {
             let ta = this.transactions, days = 0, weeks = 0, years = 0;
 
             //let lastTransaction = new Date(ta[0].timestamp_utc);
