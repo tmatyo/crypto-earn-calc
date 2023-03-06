@@ -7,8 +7,8 @@
     setup() {
     const tas = useTransactionStore();
     const rd = useRenderDataStore();
-    console.log('💸', rd.data.expenses);
-    console.log('🪙', rd.data.crypto);
+    console.log('💸 Fiat expenses', rd.data.expenses);
+    console.log('🪙 Crypto portfolio', rd.data.crypto);
     const router = useRouter();
     var goOn = false;
 
