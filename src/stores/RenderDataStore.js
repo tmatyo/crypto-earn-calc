@@ -17,6 +17,7 @@ export const useRenderDataStore = defineStore('renderDataStore', {
             },
             crypto: {
                 meta: {},
+                data: [],
                 bought: [],
                 free: []
             }
@@ -28,15 +29,22 @@ export const useRenderDataStore = defineStore('renderDataStore', {
         getEarnings: s => s.data.earnings.data,
         getYield: s => s.data.yield.data
     },
-    actions: {
-        updateAll(a) {
-            this.data = a;
+    actions: { // d = data, c = category, sc = sub category
+        updateAll(d) {
+            this.data = d;
+        },
+        addCategory(c, d) {
+            this.data[c] = d;
         },
         update(c, sc, d) {
             this.data[c][sc] = d;
         },
         pushTo(c, sc, d) {
-            this.data[c][sc].push(d);
+            if('push' in this.data[c][sc]) {
+                this.data[c][sc].push(d);
+            } else {
+                console.warn('⛔ RenderDataStore action', this.data[c][sc] + " is not an array. You cannot push() to it!");
+            }
         }
     }
 });
