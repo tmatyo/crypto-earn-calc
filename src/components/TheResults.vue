@@ -7,8 +7,6 @@
     setup() {
     const tas = useTransactionStore();
     const rd = useRenderDataStore();
-    console.log('💸 Fiat expenses', rd.data.expenses);
-    console.log('🪙 Crypto portfolio', rd.data.crypto);
     const router = useRouter();
     var goOn = false;
 
@@ -18,6 +16,9 @@
       } else {
         // preventing premature rendering and filling console log with errors because missing data
         goOn = true;
+
+        // just some stats
+        console.log('💸 Data to render', rd.data);
       }
 
       return { tas, router, goOn }

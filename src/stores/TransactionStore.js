@@ -150,13 +150,14 @@ export const useTransactionStore = defineStore ('transactionStore', {
             this.sortItOut();
         },
         sortItOut() {
-            var buyList = [], portfolio = [], byCurrency = [], byType = [];
+            var buyList = [], rewardsList = [], portfolio = [], byCurrency = [], byType = [];
             const rd = useRenderDataStore();
 
             this.transactions.forEach(t => {
 
                 // calculate expenses
                 if(t.transaction_description.substring(0,3) == "Buy") {
+                    // for the stats
                     buyList.push({
                         // meta
                         timestamp_utc: t.timestamp_utc,
@@ -166,59 +167,71 @@ export const useTransactionStore = defineStore ('transactionStore', {
                         amount: t.amount,
                         // fiat
                         native_currency: t.native_currency,
-                        native_amount: t.native_amount,
+                        native_amount: t.native_amount
                     });
 
                     // add crypto to portfolio
-                    const exists_exp = portfolio.findIndex(i => i.currency == t.currency);
+                    const existsExp = portfolio.findIndex(i => i.currency == t.currency);
 
-                    if(exists_exp == -1) { // doesnt exist? create new entry in portfolio
+                    if(existsExp == -1) { // doesnt exist? create new entry in portfolio
                         portfolio.push({
                             currency: t.currency,
                             amount: t.amount,
+                            native_currency: t.native_currency,
                             native_amount: t.native_amount
                         });
                     } else { // already exists? increment amount of this crypto in portfolio
-                        portfolio[exists_exp].amount += t.amount;
-                        portfolio[exists_exp].native_amount += t.native_amount;
+                        portfolio[existsExp].amount += t.amount;
+                        portfolio[existsExp].native_amount += t.native_amount;
                     }
                 }
 
                 // calculate rewards
-                if(t.transaction_description.includes("Reward")
-                || t.transaction_description == "Crypto Earn"
-                || t.transaction_description == "Card Cashback"
-                || t.transaction_description.includes("Credit")) {
+                if(t.transaction_description.includes("Reward") || t.transaction_description.includes("Credit")
+                || t.transaction_description == "Crypto Earn" || t.transaction_description == "Card Cashback") {
+                    // for the stats
+                    rewardsList.push({
+                        // meta
+                        timestamp_utc: t.timestamp_utc,
+                        transaction_description: t.transaction_description,
+                        // crypto
+                        currency: t.currency,
+                        amount: t.amount,
+                        // fiat
+                        native_currency: t.native_currency,
+                        native_amount: t.native_amount
+                    });
 
                     // total sum of rewards by crypto currency
-                    const exists = byCurrency.findIndex(i => i.currency == t.currency);
+                    const existsEar = byCurrency.findIndex(i => i.currency == t.currency);
 
-                    if(exists == -1) {
+                    if(existsEar == -1) {
                         byCurrency.push({
                             currency: t.currency,
                             amount: t.amount,
+                            native_currency: t.native_currency,
                             native_amount: t.native_amount
                         });
                     } else {
-                        byCurrency[exists].amount += t.amount;
-                        byCurrency[exists].native_amount += t.native_amount;
+                        byCurrency[existsEar].amount += t.amount;
+                        byCurrency[existsEar].native_amount += t.native_amount;
                     }
 
                     // total sum of rewards by type
-                    const type = byType.findIndex(i => i.type == t.transaction_description);
+                    const existsByType = byType.findIndex(i => i.type == t.transaction_description);
 
-                    if(type == -1) {
+                    if(existsByType == -1) {
                         byType.push({
-                            type: t.transaction_description,
+                            transaction_description: t.transaction_description,
+                            native_currency: t.native_currency,
                             native_amount: t.native_amount
                         });
                     } else {
-                        byType[type].native_amount += t.native_amount;
+                        byType[existsByType].native_amount += t.native_amount;
                     }
                 }
             });
 
-            // calculate some basic analytics
             if(buyList.length > 0) {
                 // calculating all the analytics
                 let depositInfo = getStats(buyList);
@@ -226,10 +239,21 @@ export const useTransactionStore = defineStore ('transactionStore', {
                 // save all info 
                 rd.update('expenses', 'meta', depositInfo);
                 rd.update('expenses', 'data', buyList);
+
+                // update list of users crypto currencies
+                rd.update('crypto', 'bought', portfolio);
+            }
+
+            if(rewardsList.length > 0) {
+                let rewardsInfo = getStats(rewardsList);
+
+                rd.update('earnings', 'meta', { rewardsInfo, byType });
+                rd.update('earnings', 'data', rewardsList);
+
+                // save earned crypto info
+                rd.update('crypto', 'free', byCurrency);
             }
             
-            // update list of users crypto currencies
-            rd.update('crypto', 'bought', portfolio);
         }
     }
 })
