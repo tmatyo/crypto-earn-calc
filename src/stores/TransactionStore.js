@@ -246,8 +246,9 @@ export const useTransactionStore = defineStore ('transactionStore', {
 
             if(rewardsList.length > 0) {
                 let rewardsInfo = getStats(rewardsList);
+                rewardsInfo.byType = byType;
 
-                rd.update('earnings', 'meta', { rewardsInfo, byType });
+                rd.update('earnings', 'meta', rewardsInfo);
                 rd.update('earnings', 'data', rewardsList);
 
                 // save earned crypto info
