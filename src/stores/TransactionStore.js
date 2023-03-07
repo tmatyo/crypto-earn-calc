@@ -149,7 +149,7 @@ export const useTransactionStore = defineStore ('transactionStore', {
             this.sortItOut();
         },
         sortItOut() {
-            var buyList = [], portfolio = [], depositInfo = { count: 0, min: 0, max: 0, avg: 0, sum: 0, minDate: '', maxDate: '' };
+            var buyList = [], portfolio = [], byCurrency = [], byType = [];
             const rd = useRenderDataStore();
 
             this.transactions.forEach(t => {
@@ -186,23 +186,36 @@ export const useTransactionStore = defineStore ('transactionStore', {
 
             // calculate some basic analytics
             if(buyList.length > 0) {
-                buyList.sort((a,b) => a.native_amount - b.native_amount, 0);
-                buyList.forEach((i) => depositInfo.sum += i.native_amount);
+                // calculating all the analytics
+                let depositInfo = this.calculateAnalytics(buyList);
 
-                depositInfo.count = buyList.length;
-                depositInfo.min = buyList[0].native_amount;
-                depositInfo.max = buyList[buyList.length-1].native_amount;
-                depositInfo.avg = (depositInfo.sum / buyList.length).toFixed(2) * 1; // * 1 -> quickfix to change back to Number type, maybe don't do this in the future
-                depositInfo.minDate = buyList[0].timestamp_utc;
-                depositInfo.maxDate = buyList[buyList.length-1].timestamp_utc;
+                // save all info 
+                rd.update('expenses', 'meta', depositInfo);
+                rd.update('expenses', 'data', buyList);
             }
-
-            // save all info 
-            rd.update('expenses', 'meta', depositInfo);
-            rd.update('expenses', 'data', buyList);
             
             // update list of users crypto currencies
             rd.update('crypto', 'bought', portfolio);
+        },
+        calculateAnalytics(d) {
+            var count, min, max, avg, minDate, maxDate, sum = 0;
+
+            // you need a deep copy of the array so it wont mutate after sorting its reference
+            const sl = [...d].sort((a,b) => a.native_amount - b.native_amount, 0);
+
+            // counting the sum
+            sl.forEach((i) => sum += i.native_amount);
+
+            count = sl.length;
+            avg = (sum / sl.length).toFixed(2) * 1; // * 1 -> quickfix to change back to Number type, maybe don't do this in the future
+            
+            min = sl[0].native_amount;
+            minDate = sl[0].timestamp_utc;
+
+            max = sl[sl.length-1].native_amount;
+            maxDate = sl[sl.length-1].timestamp_utc;
+
+            return { count, avg, min, minDate, max, maxDate, sum, sortedList: sl };
         }
     }
 })
