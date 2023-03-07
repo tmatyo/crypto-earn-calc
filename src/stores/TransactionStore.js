@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import { getRate } from '../utils/ExchangeRates';
+import { getStats } from '../utils/Calculator';
 import { useExchangeRateStore } from './ExchangeRateStore';
 import { useRenderDataStore } from './RenderDataStore';
 
@@ -182,12 +183,45 @@ export const useTransactionStore = defineStore ('transactionStore', {
                         portfolio[exists_exp].native_amount += t.native_amount;
                     }
                 }
+
+                // calculate rewards
+                if(t.transaction_description.includes("Reward")
+                || t.transaction_description == "Crypto Earn"
+                || t.transaction_description == "Card Cashback"
+                || t.transaction_description.includes("Credit")) {
+
+                    // total sum of rewards by crypto currency
+                    const exists = byCurrency.findIndex(i => i.currency == t.currency);
+
+                    if(exists == -1) {
+                        byCurrency.push({
+                            currency: t.currency,
+                            amount: t.amount,
+                            native_amount: t.native_amount
+                        });
+                    } else {
+                        byCurrency[exists].amount += t.amount;
+                        byCurrency[exists].native_amount += t.native_amount;
+                    }
+
+                    // total sum of rewards by type
+                    const type = byType.findIndex(i => i.type == t.transaction_description);
+
+                    if(type == -1) {
+                        byType.push({
+                            type: t.transaction_description,
+                            native_amount: t.native_amount
+                        });
+                    } else {
+                        byType[type].native_amount += t.native_amount;
+                    }
+                }
             });
 
             // calculate some basic analytics
             if(buyList.length > 0) {
                 // calculating all the analytics
-                let depositInfo = this.calculateAnalytics(buyList);
+                let depositInfo = getStats(buyList);
 
                 // save all info 
                 rd.update('expenses', 'meta', depositInfo);
@@ -196,26 +230,6 @@ export const useTransactionStore = defineStore ('transactionStore', {
             
             // update list of users crypto currencies
             rd.update('crypto', 'bought', portfolio);
-        },
-        calculateAnalytics(d) {
-            var count, min, max, avg, minDate, maxDate, sum = 0;
-
-            // you need a deep copy of the array so it wont mutate after sorting its reference
-            const sl = [...d].sort((a,b) => a.native_amount - b.native_amount, 0);
-
-            // counting the sum
-            sl.forEach((i) => sum += i.native_amount);
-
-            count = sl.length;
-            avg = (sum / sl.length).toFixed(2) * 1; // * 1 -> quickfix to change back to Number type, maybe don't do this in the future
-            
-            min = sl[0].native_amount;
-            minDate = sl[0].timestamp_utc;
-
-            max = sl[sl.length-1].native_amount;
-            maxDate = sl[sl.length-1].timestamp_utc;
-
-            return { count, avg, min, minDate, max, maxDate, sum, sortedList: sl };
         }
     }
 })
