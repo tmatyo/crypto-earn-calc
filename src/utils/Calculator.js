@@ -1,4 +1,9 @@
-
+/*
+*
+*   Function for calculating stats of a list of transactions in an array. 
+*   Helps determining the min, max, sum and more data.
+*
+*/
 export function getStats(d) {
     var count, min, max, avg, minDate, maxDate, sum = 0;
 
