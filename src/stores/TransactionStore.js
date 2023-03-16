@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { getRate } from '../utils/ExchangeRates';
+import { getRate, updateRates } from '../utils/ExchangeRates';
 import { getStats } from '../utils/Calculator';
 import { useExchangeRateStore } from './ExchangeRateStore';
 import { useRenderDataStore } from './RenderDataStore';
@@ -279,6 +279,8 @@ export const useTransactionStore = defineStore ('transactionStore', {
             // save list of all crypto
             rd.update('crypto', 'data', bycu);
             rd.update('crypto', 'meta', { aprox_net_worth: aproxNetWorth });
+
+            updateRates();
             
         }
     }

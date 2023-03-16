@@ -45,6 +45,10 @@ export const useRenderDataStore = defineStore('renderDataStore', {
             } else {
                 console.warn('⛔ RenderDataStore action', this.data[c][sc] + " is not an array. You cannot push() to it!");
             }
+        },
+        updateRates(i, r, w) {
+            this.data.crypto.data[i].rate = r;
+            this.data.crypto.data[i].current_worth = w;
         }
     }
 });
