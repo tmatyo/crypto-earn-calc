@@ -21,7 +21,7 @@
         console.log('💸 Data to render', rd.data);
       }
 
-      return { tas, router, goOn }
+      return { tas, rd, router, goOn }
     }
   }
 
@@ -30,6 +30,15 @@
 
 <template>
   <div class="about" v-if="goOn">
+    <data-block>
+      <h2>Crypto portfolio <span class="cec-important">{{ rd.data.crypto.meta.aprox_net_worth.toFixed(2) + " " + rd.data.crypto.data[0].native_currency }}</span></h2>
+      <div class="stat-container">
+        <div v-for="d in rd.data.crypto.data" class="stat-tile">
+          <p class="data-value">{{ d.amount.toFixed(2) + " " + d.currency}} </p>
+          <small class="data-desc">{{ d.current_worth.toFixed(2) + " " + d.native_currency }}</small>
+        </div>
+      </div>
+    </data-block>
     <h1>This is an about page</h1>
     <p v-if="!tas.isEmpty">File is uploaded and we CAN work with it :)</p>
     <p v-if="tas.isEmpty">File is uploaded we CANNOT work with it :(</p>
@@ -132,6 +141,34 @@
 .cec-important {
 	font-weight: bold;
 	color: var(--text-sub-color);
+}
+
+data-block {
+  background-color: #061121;
+}
+
+.stat-container {
+  display:grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 5px;
+}
+
+.stat-tile {
+  background-color: #061121;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+}
+
+.stat-tile .data-value {
+  font-size: 1.5em;
+}
+
+.stat-tile .data-desc {
+  color: var(--text-sub-color);
 }
 
 </style>

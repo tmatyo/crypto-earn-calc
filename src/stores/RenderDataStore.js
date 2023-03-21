@@ -16,7 +16,9 @@ export const useRenderDataStore = defineStore('renderDataStore', {
                 data: []
             },
             crypto: {
-                meta: {},
+                meta: {
+                    aprox_net_worth: 0
+                },
                 data: [],
                 bought: [],
                 free: []
