@@ -4,12 +4,66 @@ export const useRenderDataStore = defineStore('renderDataStore', {
     state: () => ({
         data: {
             expenses: {
-                meta: {},
-                data: []
+                meta: {
+                    count: 0,
+                    avg: 0.0,
+                    min: 0.0,
+                    minDate: "1970-01-01 00:00:00",
+                    max: 0.0,
+                    maxDate: "1970-01-01 00:00:00",
+                    sum: 0.0,
+                    sortedList: [
+                        {
+                            timestamp_utc: "1970-01-01 00:00:00",
+                            transaction_description: "-",
+                            currency: "-",
+                            amount: 0.0,
+                            native_currency: "-",
+                            native_amount: 0.0
+                        }
+                    ]
+                },
+                data: [
+                    {
+                        timestamp_utc: "1970-01-01 00:00:00",
+                        transaction_description: "-",
+                        currency: "-",
+                        amount: 0.0,
+                        native_currency: "-",
+                        native_amount: 0.0
+                    }
+                ]
             },
             earnings: {
-                meta: {},
-                data: [],
+                meta: {
+                    count: 0,
+                    avg: 0.0,
+                    min: 0.0,
+                    minDate: "1970-01-01 00:00:00",
+                    max: 0.0,
+                    maxDate: "1970-01-01 00:00:00",
+                    sum: 0.0,
+                    sortedList: [
+                        {
+                            timestamp_utc: "1970-01-01 00:00:00",
+                            transaction_description: "-",
+                            currency: "-",
+                            amount: 0.0,
+                            native_currency: "-",
+                            native_amount: 0.0
+                        }
+                    ]
+                },
+                data: [
+                    {
+                        timestamp_utc: "1970-01-01 00:00:00",
+                        transaction_description: "-",
+                        currency: "-",
+                        amount: 0.0,
+                        native_currency: "-",
+                        native_amount: 0.0
+                    }
+                ],
             },
             yield: {
                 meta: {},
@@ -19,9 +73,33 @@ export const useRenderDataStore = defineStore('renderDataStore', {
                 meta: {
                     aprox_net_worth: 0
                 },
-                data: [],
-                bought: [],
-                free: []
+                data: [
+            {
+                currency: "-",
+                amount: 0.0,
+                native_currency: "-",
+                native_amount: 0.0,
+                rate: 0.0,
+                current_worth: 0.0
+            }],
+                bought: [
+            {
+                currency: "-",
+                amount: 0.0,
+                native_currency: "-",
+                native_amount: 0.0,
+                rate: 0.0,
+                current_worth: 0.0
+            }],
+                free: [
+            {
+                currency: "-",
+                amount: 0.0,
+                native_currency: "-",
+                native_amount: 0.0,
+                rate: 0.0,
+                current_worth: 0.0
+            }]
             }
         }
     }),
