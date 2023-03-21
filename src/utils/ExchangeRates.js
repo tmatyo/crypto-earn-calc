@@ -72,5 +72,5 @@ function theCallback(res, amount, index, s) {
 
     // update data store
     const rd = useRenderDataStore();
-    rd.updateRates(index, rate, amount * rate);
+    rd.updateCryptoRates(index, rate, amount * rate);
 }

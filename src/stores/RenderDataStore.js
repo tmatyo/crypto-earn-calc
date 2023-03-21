@@ -74,32 +74,35 @@ export const useRenderDataStore = defineStore('renderDataStore', {
                     aprox_net_worth: 0
                 },
                 data: [
-            {
-                currency: "-",
-                amount: 0.0,
-                native_currency: "-",
-                native_amount: 0.0,
-                rate: 0.0,
-                current_worth: 0.0
-            }],
-                bought: [
-            {
-                currency: "-",
-                amount: 0.0,
-                native_currency: "-",
-                native_amount: 0.0,
-                rate: 0.0,
-                current_worth: 0.0
-            }],
-                free: [
-            {
-                currency: "-",
-                amount: 0.0,
-                native_currency: "-",
-                native_amount: 0.0,
-                rate: 0.0,
-                current_worth: 0.0
-            }]
+                    {
+                        currency: "-",
+                        amount: 0.0,
+                        native_currency: "-",
+                        native_amount: 0.0,
+                        rate: 0.0,
+                        current_worth: 0.0
+                    }
+                ],
+                        bought: [
+                    {
+                        currency: "-",
+                        amount: 0.0,
+                        native_currency: "-",
+                        native_amount: 0.0,
+                        rate: 0.0,
+                        current_worth: 0.0
+                    }
+                ],
+                        free: [
+                    {
+                        currency: "-",
+                        amount: 0.0,
+                        native_currency: "-",
+                        native_amount: 0.0,
+                        rate: 0.0,
+                        current_worth: 0.0
+                    }
+                ]
             }
         }
     }),
@@ -126,7 +129,7 @@ export const useRenderDataStore = defineStore('renderDataStore', {
                 console.warn('⛔ RenderDataStore action', this.data[c][sc] + " is not an array. You cannot push() to it!");
             }
         },
-        updateRates(i, r, w) {
+        updateCryptoRates(i, r, w) {
             this.data.crypto.data[i].rate = r;
             this.data.crypto.data[i].current_worth = w;
         }
