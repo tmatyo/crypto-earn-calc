@@ -30,7 +30,7 @@
 
 <template>
   <div class="about" v-if="goOn">
-    <data-block>
+    <div class="stat-data-block">
       <h2>Crypto portfolio <span class="cec-important">{{ rd.data.crypto.meta.aprox_net_worth.toFixed(2) + " " + rd.data.crypto.data[0].native_currency }}</span></h2>
       <div class="stat-container">
         <div v-for="d in rd.data.crypto.data" class="stat-tile">
@@ -38,7 +38,7 @@
           <small class="data-desc">{{ d.current_worth.toFixed(2) + " " + d.native_currency }}</small>
         </div>
       </div>
-    </data-block>
+    </div>
     <h1>This is an about page</h1>
     <p v-if="!tas.isEmpty">File is uploaded and we CAN work with it :)</p>
     <p v-if="tas.isEmpty">File is uploaded we CANNOT work with it :(</p>
@@ -143,8 +143,10 @@
 	color: var(--text-sub-color);
 }
 
-data-block {
-  background-color: #061121;
+.stat-data-block {
+  background-color: var(--brand-color-shade-1);
+  padding: 10px;
+  margin: 10px;
 }
 
 .stat-container {
@@ -154,7 +156,7 @@ data-block {
 }
 
 .stat-tile {
-  background-color: #061121;
+  background-color: var(--brand-color-shade-2);
   display: flex;
   flex-direction: column;
   text-align: center;
