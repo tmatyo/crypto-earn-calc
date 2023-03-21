@@ -83,7 +83,7 @@ export const useRenderDataStore = defineStore('renderDataStore', {
                         current_worth: 0.0
                     }
                 ],
-                        bought: [
+                bought: [
                     {
                         currency: "-",
                         amount: 0.0,
@@ -93,7 +93,7 @@ export const useRenderDataStore = defineStore('renderDataStore', {
                         current_worth: 0.0
                     }
                 ],
-                        free: [
+                free: [
                     {
                         currency: "-",
                         amount: 0.0,

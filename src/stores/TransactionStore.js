@@ -256,7 +256,8 @@ export const useTransactionStore = defineStore ('transactionStore', {
             }
             
             // breaking reactivity, so data stores are not affected
-            var port = [...portfolio], bycu = [...byCurrency];
+            var port = [...portfolio]; 
+            var bycu = [...byCurrency];
 
             // merge arrays of bought and rewarded crypto
             port.forEach(p => {
