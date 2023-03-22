@@ -255,30 +255,27 @@ export const useTransactionStore = defineStore ('transactionStore', {
                 rd.update('crypto', 'free', byCurrency);
             }
             
-            // breaking reactivity, so data stores are not affected
-            var port = [...portfolio]; 
-            var bycu = [...byCurrency];
-
-            // merge arrays of bought and rewarded crypto
-            port.forEach(p => {
-                var i = bycu.findIndex(b => b.currency == p.currency);
-
-                if(i == -1) {
-                    bycu.push(p);
-                } else {
-                    bycu[i].amount += p.amount;
-                    bycu[i].native_amount += p.native_amount;
-                }
-            });
+            // merge arrays of bought and rewarded crypto & breaking reactivity, so data stores are not affected
+            let crpt = JSON.parse(JSON.stringify([ ...portfolio, ...byCurrency ]));
+            var crptAll = [];
 
             // counting aprox net worth, this will be compared to real data after ajax calls
             var aproxNetWorth = 0;
-            bycu.forEach(i => {
-                aproxNetWorth += i.native_amount;
+
+            crpt.forEach(p => {
+                aproxNetWorth += p.native_amount;
+                var i = crptAll.findIndex(b => b.currency == p.currency);
+
+                if(i == -1) {
+                    crptAll.push(p);
+                } else {
+                    crptAll[i].amount += p.amount;
+                    crptAll[i].native_amount += p.native_amount;
+                }
             });
 
             // save list of all crypto
-            rd.update('crypto', 'data', bycu);
+            rd.update('crypto', 'data', crptAll);
             rd.update('crypto', 'meta', { aprox_net_worth: aproxNetWorth });
 
             updateRates();
