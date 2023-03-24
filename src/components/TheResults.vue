@@ -2,43 +2,36 @@
   import { useRenderDataStore } from '../stores/RenderDataStore'
   import { useTransactionStore } from '../stores/TransactionStore'
   import { useRouter } from 'vue-router'
+  import CryptoList from './render_blocks/CryptoList.vue'
 
   export default {
     setup() {
-    const tas = useTransactionStore();
-    const rd = useRenderDataStore();
-    const router = useRouter();
-    var goOn = false;
-
-    if(tas.isEmpty) {
-        // results page is opened, but no data was provided? redirect to home page
-        router.push({name:'home'});
-      } else {
-        // preventing premature rendering and filling console log with errors because missing data
-        goOn = true;
-
-        // just some stats
-        console.log('💸 Data to render', rd.data);
-      }
-
-      return { tas, rd, router, goOn }
-    }
-  }
+        const tas = useTransactionStore();
+        const rd = useRenderDataStore();
+        const router = useRouter();
+        var goOn = false;
+        
+        if (tas.isEmpty) {
+            // results page is opened, but no data was provided? redirect to home page
+            router.push({ name: "home" });
+        }
+        else {
+            // preventing premature rendering and filling console log with errors because missing data
+            goOn = true;
+            // just some stats
+            console.log("💸 Data to render", rd.data);
+        }
+        return { tas, rd, router, goOn };
+    },
+    components: { CryptoList }
+}
 
 </script>
 
 
 <template>
   <div class="about" v-if="goOn">
-    <div class="stat-data-block">
-      <h2>Crypto portfolio <span class="cec-important">{{ rd.data.crypto.meta.aprox_net_worth.toFixed(2) + " " + rd.data.crypto.data[0].native_currency }}</span></h2>
-      <div class="stat-container">
-        <div v-for="d in rd.data.crypto.data" class="stat-tile">
-          <p class="data-value">{{ d.amount.toFixed(2) + " " + d.currency}} </p>
-          <small class="data-desc">{{ d.current_worth.toFixed(2) + " " + d.native_currency }}</small>
-        </div>
-      </div>
-    </div>
+    <CryptoList :data="rd.data.crypto.data" :meta="rd.data.crypto.meta" v-if="rd.data.crypto.data && rd.data.crypto.meta" />
     <h1>This is an about page</h1>
     <p v-if="!tas.isEmpty">File is uploaded and we CAN work with it :)</p>
     <p v-if="tas.isEmpty">File is uploaded we CANNOT work with it :(</p>
