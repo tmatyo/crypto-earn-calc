@@ -25,7 +25,7 @@ export function getRate(crypto, fiat) {
     })
     .catch((err) => {
         // silent fail
-        console.log('🫠 ' + err.response.status, err.response.data.error);
+        console.log('🫠 ' + err.response?.status, err.response?.data.error);
     });
 }
 
