@@ -3,21 +3,19 @@ const props = defineProps({
     data: {
         required: true,
     },
-    meta: {
-        required: true,
+    subTitle: {
+        required: true
     }
 })
 </script>
 
 <template>
     <div class="stat-data-block">
-        <h2>Crypto portfolio 
-            <span class="cec-important">{{ props.meta.aprox_net_worth?.toFixed(2) + " " + props.data[0].native_currency }}</span>
-        </h2>
+        <h2>{{props.subTitle}}</h2>
         <div class="stat-container">
             <div v-for="d in props.data" class="stat-tile">
                 <p class="data-value">{{ d.amount?.toFixed(2) + " " + d.currency}} </p>
-                <small class="data-desc">{{ d.current_worth?.toFixed(2) + " " + d.native_currency }}</small>
+                <small class="data-desc">{{ d.native_amount?.toFixed(2) + " " + d.native_currency }}</small>
             </div>
         </div>
     </div>

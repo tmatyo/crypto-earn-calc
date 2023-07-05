@@ -1,10 +1,11 @@
 <script>
-  import { useRenderDataStore } from '../stores/RenderDataStore'
-  import { useTransactionStore } from '../stores/TransactionStore'
-  import { useRouter } from 'vue-router'
-  import CryptoList from './render_blocks/CryptoList.vue'
-  import UserStats from './render_blocks/UserStats.vue'
-  import DepositStats from './render_blocks/DepositStats.vue'
+import { useRenderDataStore } from '../stores/RenderDataStore'
+import { useTransactionStore } from '../stores/TransactionStore'
+import { useRouter } from 'vue-router'
+import CryptoList from './render_blocks/CryptoList.vue'
+import UserStats from './render_blocks/UserStats.vue'
+import DepositStats from './render_blocks/DepositStats.vue'
+import ListOfCrypto from './render_blocks/ListOfCrypto.vue'
 
   export default {
     setup() {
@@ -25,7 +26,7 @@
         }
         return { tas, rd, router, goOn };
     },
-    components: { UserStats, DepositStats, CryptoList }
+    components: { UserStats, DepositStats, CryptoList, ListOfCrypto }
 }
 
 </script>
@@ -42,7 +43,12 @@
     <!-- Stats about FIAT deposits made by the user -->
     <DepositStats :data="tas.getDepositInfo" :nativeCurrency="tas.getNativeCurrency" />
 
-    
+    <!-- List of crypto bought by the user with FIAT deposits -->
+    <ListOfCrypto :data="rd.data.crypto.bought" :subTitle="`Bought crypto`" />
+
+    <!-- List of crypto rewarded to the user by crypto.com -->
+    <ListOfCrypto :data="rd.data.crypto.free" :subTitle="`Rewarded crypto`" />
+
     <h1>This is an about page</h1>
     <p v-if="!tas.isEmpty">File is uploaded and we CAN work with it :)</p>
     <p v-if="tas.isEmpty">File is uploaded we CANNOT work with it :(</p>
