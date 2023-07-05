@@ -3,7 +3,7 @@ const props = defineProps({
     count: {
         required: true
     },
-    currency: {
+    nativeCurrency: {
         required: true
     },
     duration: {
@@ -24,7 +24,7 @@ const props = defineProps({
                 <small class="data-desc">Number of transactions</small>
             </div>
             <div class="stat-tile">
-                <p class="data-value">{{ currency }} </p>
+                <p class="data-value">{{ nativeCurrency }} </p>
                 <small class="data-desc">Native currency</small>
             </div>
             <div class="stat-tile">

@@ -2,9 +2,9 @@
   import { useRenderDataStore } from '../stores/RenderDataStore'
   import { useTransactionStore } from '../stores/TransactionStore'
   import { useRouter } from 'vue-router'
+  import CryptoList from './render_blocks/CryptoList.vue'
   import UserStats from './render_blocks/UserStats.vue'
   import DepositStats from './render_blocks/DepositStats.vue'
-  import CryptoList from './render_blocks/CryptoList.vue'
 
   export default {
     setup() {
@@ -33,9 +33,16 @@
 
 <template>
   <div class="about" v-if="goOn">
-    <UserStats :count="tas.getCount" :currency="tas.getNativeCurrency" :duration="tas.getInvestmentDuration.days" :rewards="tas.getRewardSum.sum" />
-    <DepositStats :data="tas.getDepositInfo" :currency="tas.getNativeCurrency" />
+    <!-- Main crypto portfolio -->
     <CryptoList :data="rd.data.crypto.data" :meta="rd.data.crypto.meta" v-if="rd.data.crypto.data && rd.data.crypto.meta" />
+
+    <!-- Stats about the users investment behaviour -->
+    <UserStats :count="tas.getCount" :nativeCurrency="tas.getNativeCurrency" :duration="tas.getInvestmentDuration.days" :rewards="tas.getRewardSum.sum" />
+
+    <!-- Stats about FIAT deposits made by the user -->
+    <DepositStats :data="tas.getDepositInfo" :nativeCurrency="tas.getNativeCurrency" />
+
+    
     <h1>This is an about page</h1>
     <p v-if="!tas.isEmpty">File is uploaded and we CAN work with it :)</p>
     <p v-if="tas.isEmpty">File is uploaded we CANNOT work with it :(</p>

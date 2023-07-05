@@ -3,7 +3,7 @@ const props = defineProps({
     data: {
         required: true
     },
-    currency: {
+    nativeCurrency: {
         required: true
     }
 })
@@ -12,7 +12,7 @@ const props = defineProps({
 <template>
     <div class="stat-data-block">
         <h2>Deposit stats 
-            <span class="cec-important">{{ data.sum }} {{ currency }}</span>
+            <span class="cec-important">{{ data.sum }} {{ nativeCurrency }}</span>
         </h2>
         <div class="stat-container">
             <div class="stat-tile">
@@ -20,15 +20,15 @@ const props = defineProps({
                 <small class="data-desc">Number of deposits</small>
             </div>
             <div class="stat-tile">
-                <p class="data-value">{{ data.min }}  {{ currency }}</p>
+                <p class="data-value">{{ data.min }}  {{ nativeCurrency }}</p>
                 <small class="data-desc">Smallest deposit</small>
             </div>
             <div class="stat-tile">
-                <p class="data-value">{{ data.max }}  {{ currency }}</p>
+                <p class="data-value">{{ data.max }}  {{ nativeCurrency }}</p>
                 <small class="data-desc">Largest deposit</small>
             </div>
             <div class="stat-tile">
-                <p class="data-value">{{ data.avg }}  {{ currency }}</p>
+                <p class="data-value">{{ data.avg }}  {{ nativeCurrency }}</p>
                 <small class="data-desc">Average deposit</small>
             </div>
         </div>
