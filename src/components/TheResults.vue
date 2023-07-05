@@ -3,6 +3,7 @@
   import { useTransactionStore } from '../stores/TransactionStore'
   import { useRouter } from 'vue-router'
   import UserStats from './render_blocks/UserStats.vue'
+  import DepositStats from './render_blocks/DepositStats.vue'
   import CryptoList from './render_blocks/CryptoList.vue'
 
   export default {
@@ -24,7 +25,7 @@
         }
         return { tas, rd, router, goOn };
     },
-    components: { UserStats, CryptoList }
+    components: { UserStats, DepositStats, CryptoList }
 }
 
 </script>
@@ -33,6 +34,7 @@
 <template>
   <div class="about" v-if="goOn">
     <UserStats :count="tas.getCount" :currency="tas.getNativeCurrency" :duration="tas.getInvestmentDuration.days" :rewards="tas.getRewardSum.sum" />
+    <DepositStats :data="tas.getDepositInfo" :currency="tas.getNativeCurrency" />
     <CryptoList :data="rd.data.crypto.data" :meta="rd.data.crypto.meta" v-if="rd.data.crypto.data && rd.data.crypto.meta" />
     <h1>This is an about page</h1>
     <p v-if="!tas.isEmpty">File is uploaded and we CAN work with it :)</p>
