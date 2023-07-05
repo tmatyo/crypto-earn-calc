@@ -2,6 +2,7 @@
   import { useRenderDataStore } from '../stores/RenderDataStore'
   import { useTransactionStore } from '../stores/TransactionStore'
   import { useRouter } from 'vue-router'
+  import UserStats from './render_blocks/UserStats.vue'
   import CryptoList from './render_blocks/CryptoList.vue'
 
   export default {
@@ -23,7 +24,7 @@
         }
         return { tas, rd, router, goOn };
     },
-    components: { CryptoList }
+    components: { UserStats, CryptoList }
 }
 
 </script>
@@ -31,13 +32,12 @@
 
 <template>
   <div class="about" v-if="goOn">
+    <UserStats :count="tas.getCount" :currency="tas.getNativeCurrency" :duration="tas.getInvestmentDuration.days" :rewards="tas.getRewardSum.sum" />
     <CryptoList :data="rd.data.crypto.data" :meta="rd.data.crypto.meta" v-if="rd.data.crypto.data && rd.data.crypto.meta" />
     <h1>This is an about page</h1>
     <p v-if="!tas.isEmpty">File is uploaded and we CAN work with it :)</p>
     <p v-if="tas.isEmpty">File is uploaded we CANNOT work with it :(</p>
-    <p>Number of transactions <span class="cec-important">{{ tas.getCount }}</span>. Users native currency is <span class="cec-important">{{ tas.getNativeCurrency }}</span>. 
-		Investment duration is <span class="cec-important">{{ tas.getInvestmentDuration.days }}</span> days. Rewards total: <span class="cec-important">{{ tas.getRewardSum.sum + " " + tas.getNativeCurrency }}</span>.
-		Portfolio net worth based on buy price: <span class="cec-important">{{ tas.getAllCoins.sum + " " + tas.getNativeCurrency }}</span>.</p>
+    <p>Portfolio net worth based on buy price: <span class="cec-important">{{ tas.getAllCoins.sum + " " + tas.getNativeCurrency }}</span>.</p>
     <br>
 	<p>All my coins:</p>
 	<ul>
