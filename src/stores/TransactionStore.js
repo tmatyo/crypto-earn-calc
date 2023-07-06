@@ -218,7 +218,7 @@ export const useTransactionStore = defineStore ('transactionStore', {
                     }
 
                     // total sum of rewards by type
-                    const existsByType = byType.findIndex(i => i.type == t.transaction_description);
+                    const existsByType = byType.findIndex(i => i.transaction_description == t.transaction_description);
 
                     if(existsByType == -1) {
                         byType.push({
@@ -246,10 +246,10 @@ export const useTransactionStore = defineStore ('transactionStore', {
 
             if(rewardsList.length > 0) {
                 let rewardsInfo = getStats(rewardsList);
-                rewardsInfo.byType = byType;
 
                 rd.update('earnings', 'meta', rewardsInfo);
                 rd.update('earnings', 'data', rewardsList);
+                rd.update('earnings', 'byType', byType);
 
                 // save earned crypto info
                 rd.update('crypto', 'free', byCurrency);
