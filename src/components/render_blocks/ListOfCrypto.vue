@@ -1,4 +1,6 @@
 <script setup>
+import { formatCurrency } from '../../utils/Formatter';
+
 const props = defineProps({
     data: {
         required: true,
@@ -14,8 +16,8 @@ const props = defineProps({
         <h2>{{props.subTitle}}</h2>
         <div class="stat-container">
             <div v-for="d in props.data" class="stat-tile">
-                <p class="data-value">{{ d.amount?.toFixed(2) + " " + d.currency}} </p>
-                <small class="data-desc">{{ d.native_amount?.toFixed(2) + " " + d.native_currency }}</small>
+                <p class="data-value">{{ formatCurrency(d.amount) + " " + d.currency}} </p>
+                <small class="data-desc">{{ formatCurrency(d.native_amount) + " " + d.native_currency }}</small>
             </div>
         </div>
     </div>

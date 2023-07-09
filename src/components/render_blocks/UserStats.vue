@@ -1,4 +1,6 @@
 <script setup>
+import { formatCurrency } from '../../utils/Formatter';
+
 const props = defineProps({
     count: {
         required: true
@@ -32,7 +34,7 @@ const props = defineProps({
                 <small class="data-desc">Investment duration (days)</small>
             </div>
             <div class="stat-tile">
-                <p class="data-value">{{ rewards }} </p>
+                <p class="data-value">{{ formatCurrency(rewards) }} </p>
                 <small class="data-desc">Total rewards (EUR)</small>
             </div>
         </div>
