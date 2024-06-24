@@ -1,22 +1,22 @@
-@import './base.css';
+@import "./base.css";
 
 * {
-  box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 :root {
-  --brand-color: #061121;
-  --brand-color-shade-1: #081528;
-  --brand-color-shade-2: #0b1f3c;
-  --text-sub-color: #1199FA;
+	--brand-color: #061121;
+	--brand-color-shade-1: #081528;
+	--brand-color-shade-2: #0b1f3c;
+	--text-sub-color: #1199fa;
 }
 
 html {
-  margin: 0;
-  padding: 0;
+	margin: 0;
+	padding: 0;
 }
 
-body { 
-  color: var(--vt-c-white);
-  background: var(--brand-color); 
+body {
+	color: var(--vt-c-white);
+	background: var(--brand-color);
 }
