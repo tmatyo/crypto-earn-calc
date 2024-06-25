@@ -1,89 +1,81 @@
-<script>
+<script setup>
+import { onMounted, ref, inject } from "vue";
 import { useTransactionStore } from "../stores/TransactionStore";
 import { getRate } from "../utils/ExchangeRates";
 
-export default {
-	data() {
-		return {
-			files: [],
-			csv: {},
-			dropzoneState: false,
-			tas: {},
-		};
-	},
-	methods: {
-		toggleActive(e) {
-			// dealing with all file upload + related events, NEEDS WORK
-			if (["dragover", "dragenter", "dragleave", "drop"].indexOf(e.type) + 1) {
-				e.dataTransfer.dropEffect = "move";
-			}
+const $papa = inject('$papa');
+const $router = inject('$router');
+const files = ref([]);
+const csv = ref({});
+const dropzoneState = ref(false);
+const tas = ref({});
 
-			this.dropzoneState = !this.dropzoneState;
-			var files;
+function toggleActive(e) {
+	// dealing with all file upload + related events, NEEDS WORK
+	if (["dragover", "dragenter", "dragleave", "drop"].indexOf(e.type) + 1) {
+		e.dataTransfer.dropEffect = "move";
+	}
 
-			// gather files from input
-			if (e.type == "change") {
-				files = e.target.files;
-			}
+	dropzoneState.value = !dropzoneState.value;
+	let files;
 
-			// fetch files from dropzone
-			if (e.type == "drop") {
-				files = e.dataTransfer.files;
-			}
+	// gather files from input
+	if (e.type == "change") {
+		files = e.target.files;
+	}
 
-			// if there is a file to work with ...
-			if (e.type == "drop" || e.type == "change") {
-				console.log(1);
-				console.log(files);
-				console.log("File name: ", files[0].name);
-				console.log("File type: ", files[0].type);
-				console.log("File size: ", files[0].size);
+	// fetch files from dropzone
+	if (e.type == "drop") {
+		files = e.dataTransfer.files;
+	}
 
-				// ... and it is in fact a CSV file ...
-				if (files[0].type != "text/csv") {
-					return;
-				}
+	// if there is a file to work with ...
+	if (e.type == "drop" || e.type == "change") {
+		console.log('There is a file to work with');
+		console.log(files);
+		console.log("File name: ", files[0].name);
+		console.log("File type: ", files[0].type);
+		console.log("File size: ", files[0].size);
 
-				// JS shenaningas
-				var self = this;
-
-				// ... parse it with papaparse
-				this.$papa.parse(files[0], {
-					skipEmptyLines: true,
-					dynamicTyping: true,
-					header: true,
-					transformHeader: function (h) {
-						return h.toLowerCase().replaceAll("(", "").replaceAll(")", "").replaceAll(" ", "_");
-					},
-					complete: function (res) {
-						// saving parsed JSON and handing over to next method for calculations
-						self.csv = res;
-						self.workWithData();
-					},
-				});
-				console.log(2);
-			}
-		},
-		workWithData() {
-			// TO DO: calculations, render on fancy front end, keep reactivity/interactivity
-			console.log(this.csv.data);
-
-			// adding state management
-			//var tas = useTransactionStore();
-			this.tas.addTransactions(this.csv.data);
-
-			// render fancy report
-			this.$router.push({ name: "about" });
-		},
-	},
-	mounted() {
-		//alert(this.dropzoneState);
-	},
-	created() {
-		//getRate('ETH', 'EUR');
-		this.tas = useTransactionStore();
-	},
+		// ... and it is in fact a CSV file ...
+		if (files[0].type != "text/csv") {
+			return;
+		}
+    
+		// ... parse it with papaparse
+		$papa.parse(files[0], {
+			skipEmptyLines: true,
+			dynamicTyping: true,
+			header: true,
+			transformHeader: function (h) {
+				return h.toLowerCase().replaceAll("(", "").replaceAll(")", "").replaceAll(" ", "_");
+			},
+			complete: function (res) {
+				// saving parsed JSON and handing over to next method for calculations
+				csv.value = res;
+				workWithData();
+			},
+		});
+		console.log('File parsed i guess');
+	}
 };
+
+const workWithData = () => {
+	// TO DO: calculations, render on fancy front end, keep reactivity/interactivity
+	console.log('Data from the file', csv.value.data);
+
+	// adding state management
+	//var tas = useTransactionStore();
+	tas.value.addTransactions(csv.value.data);
+
+	// render fancy report
+	$router.push({ name: "about" });
+};
+
+onMounted(() => {
+	//getRate('ETH', 'EUR');
+	tas.value = useTransactionStore();
+});
 </script>
 
 <template>
@@ -94,7 +86,7 @@ export default {
 			@dragenter.prevent="toggleActive"
 			@dragleave.prevent="toggleActive"
 			@drop.prevent="toggleActive"
-			:class="{ 'active-upload': this.dropzoneState }"
+			:class="{ 'active-upload': dropzoneState }"
 		>
 			<p>Drag and drop your CSV file here</p>
 			<span>OR</span>
@@ -112,7 +104,7 @@ export default {
 				This is a browser app. Meaning: it has no server side. The file won't be sent anywhere, all calculations
 				will be done on your device.<br />YOUR DATA WON'T LEAVE THE BROWSER!
 			</p>
-			<p v-for="c in this.tas.exchangeRates">1 {{ c.asset_id_base }} = {{ c.rate + " " + c.asset_id_quote }}</p>
+			<p v-for="c in tas.exchangeRates">1 {{ c.asset_id_base }} = {{ c.rate + " " + c.asset_id_quote }}</p>
 		</div>
 	</div>
 </template>

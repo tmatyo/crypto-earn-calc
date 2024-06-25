@@ -1,33 +1,27 @@
-<script>
+<script setup>
+import { inject } from 'vue'
 import { useRenderDataStore } from "../stores/RenderDataStore";
 import { useTransactionStore } from "../stores/TransactionStore";
-import { useRouter } from "vue-router";
 import CryptoList from "./render_blocks/CryptoList.vue";
 import UserStats from "./render_blocks/UserStats.vue";
 import DepositStats from "./render_blocks/DepositStats.vue";
 import ListOfCrypto from "./render_blocks/ListOfCrypto.vue";
 import RewardsByType from "./render_blocks/RewardsByType.vue";
 
-export default {
-	setup() {
-		const tas = useTransactionStore();
-		const rd = useRenderDataStore();
-		const router = useRouter();
-		var goOn = false;
+const tas = useTransactionStore();
+const rd = useRenderDataStore();
+const router = inject('$router');
+let goOn = false;
 
-		if (tas.isEmpty) {
-			// results page is opened, but no data was provided? redirect to home page
-			router.push({ name: "home" });
-		} else {
-			// preventing premature rendering and filling console log with errors because missing data
-			goOn = true;
-			// just some stats
-			console.log("💸 Data to render", rd.data);
-		}
-		return { tas, rd, router, goOn };
-	},
-	components: { UserStats, DepositStats, CryptoList, ListOfCrypto, RewardsByType },
-};
+if (tas.isEmpty) {
+	// results page is opened, but no data was provided? redirect to home page
+	router.push({ name: "home" });
+} else {
+	// preventing premature rendering and filling console log with errors because missing data
+	goOn = true;
+	// just some stats
+	console.log("💸 Data to render", rd.data);
+}
 </script>
 
 <template>
