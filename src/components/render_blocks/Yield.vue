@@ -18,9 +18,7 @@ console.log(props.data);
 
 <template>
 	<div class="stat-data-block">
-		<h2>
-			Overall
-		</h2>
+		<h2>Overall</h2>
 		<div class="stat-container">
 			<div class="stat-tile">
 				<p class="data-value">{{ formatCurrency(data.currentNetWorth) + " " + nativeCurrency }}</p>

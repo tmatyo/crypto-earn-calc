@@ -3,8 +3,8 @@ import { onMounted, ref, inject } from "vue";
 import { useTransactionStore } from "../stores/TransactionStore";
 import { getRate } from "../utils/ExchangeRates";
 
-const $papa = inject('$papa');
-const $router = inject('$router');
+const $papa = inject("$papa");
+const $router = inject("$router");
 const files = ref([]);
 const csv = ref({});
 const dropzoneState = ref(false);
@@ -31,7 +31,7 @@ function toggleActive(e) {
 
 	// if there is a file to work with ...
 	if (e.type == "drop" || e.type == "change") {
-		console.log('There is a file to work with');
+		console.log("There is a file to work with");
 		console.log(files);
 		console.log("File name: ", files[0].name);
 		console.log("File type: ", files[0].type);
@@ -41,7 +41,7 @@ function toggleActive(e) {
 		if (files[0].type != "text/csv") {
 			return;
 		}
-    
+
 		// ... parse it with papaparse
 		$papa.parse(files[0], {
 			skipEmptyLines: true,
@@ -56,13 +56,13 @@ function toggleActive(e) {
 				workWithData();
 			},
 		});
-		console.log('File parsed i guess');
+		console.log("File parsed i guess");
 	}
-};
+}
 
 const workWithData = () => {
 	// TO DO: calculations, render on fancy front end, keep reactivity/interactivity
-	console.log('Data from the file', csv.value.data);
+	console.log("Data from the file", csv.value.data);
 
 	// adding state management
 	//var tas = useTransactionStore();

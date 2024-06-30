@@ -9,9 +9,9 @@ import "./assets/main.css";
 const app = createApp(App);
 
 app.use(router);
-app.provide('$router', app.config.globalProperties.$router);
+app.provide("$router", app.config.globalProperties.$router);
 
 app.use(VuePapaParse);
-app.provide('$papa', app.config.globalProperties.$papa);
+app.provide("$papa", app.config.globalProperties.$papa);
 
 app.use(createPinia()).mount("#app");
