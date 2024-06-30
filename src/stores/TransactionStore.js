@@ -142,7 +142,7 @@ export const useTransactionStore = defineStore("transactionStore", {
 			rewards.forEach((i) => {
 				sum += i.native_amount;
 				console.log("🧐 Iteration:", i);
-				getRate(i.currency, this.getNativeCurrency);
+				//getRate(i.currency, this.getNativeCurrency);
 			});
 
 			let er = useExchangeRateStore();

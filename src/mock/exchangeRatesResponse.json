@@ -1,0 +1,32 @@
+{
+    "SHIB": {
+        "time": "2024-06-29T15:18:32.0000000Z",
+        "asset_id_base": "SHIB",
+        "asset_id_quote": "EUR",
+        "rate": 0.0000158769363691193500645248
+    },
+    "ETH": {
+        "time": "2024-06-29T15:18:31.0000000Z",
+        "asset_id_base": "ETH",
+        "asset_id_quote": "EUR",
+        "rate": 3157.4353889727209193800322239
+    },
+    "ELON": {
+        "time": "2024-06-29T15:18:32.0000000Z",
+        "asset_id_base": "ELON",
+        "asset_id_quote": "EUR",
+        "rate": 0.0000001467257045057450378843
+    },
+    "CRO": {
+        "time": "2024-06-29T15:18:32.0000000Z",
+        "asset_id_base": "CRO",
+        "asset_id_quote": "EUR",
+        "rate": 0.0851370629808161678936194189
+    },
+    "ETHW": {
+        "time": "2024-06-29T15:18:32.0000000Z",
+        "asset_id_base": "ETHW",
+        "asset_id_quote": "EUR",
+        "rate": 3.0000370629808161678936194189
+    }
+}

@@ -137,5 +137,18 @@ export const useRenderDataStore = defineStore("renderDataStore", {
 			this.data.crypto.data[i].rate = r;
 			this.data.crypto.data[i].current_worth = w;
 		},
+		calculateYield() {
+			let currentNetWorth = 0;
+			this.data.crypto.data.forEach((i) => {
+				currentNetWorth += i.current_worth;
+			});
+
+			this.data.yield.data = {
+				currentNetWorth,
+				deposited: this.data.expenses.meta.sum,
+				rewarded: this.data.earnings.meta.sum,
+				yield: currentNetWorth - this.data.expenses.meta.sum,
+			};
+		},
 	},
 });
