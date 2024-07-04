@@ -3,12 +3,15 @@ const props = defineProps({
 	files: {
 		required: true,
 	},
+	subTitle: {
+		required: true,
+	},
 });
 </script>
 
 <template>
 	<div class="stat-data-block">
-		<h2>Files</h2>
+		<h2>{{ props.subTitle }}</h2>
 		<div class="">
 			<table>
 				<tbody>

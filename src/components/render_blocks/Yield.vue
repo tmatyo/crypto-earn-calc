@@ -12,6 +12,9 @@ const props = defineProps({
 	nativeCurrency: {
 		required: true,
 	},
+	subTitle: {
+		required: true,
+	},
 });
 
 console.log(props.data);
@@ -19,7 +22,7 @@ console.log(props.data);
 
 <template>
 	<div class="stat-data-block">
-		<h2>Overall</h2>
+		<h2>{{ props.subTitle }}</h2>
 		<div class="stat-container">
 			<StatTile
 				:titleText="formatCurrency(data.yield) + ' ' + nativeCurrency"

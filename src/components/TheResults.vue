@@ -9,6 +9,7 @@ import ListOfCrypto from "./render_blocks/ListOfCrypto.vue";
 import RewardsByType from "./render_blocks/RewardsByType.vue";
 import Yield from "./render_blocks/Yield.vue";
 import FileList from "./render_blocks/FileList.vue";
+import CryptoRates from "./render_blocks/CryptoRates.vue";
 
 const tas = useTransactionStore();
 const rd = useRenderDataStore();
@@ -29,10 +30,15 @@ if (tas.isEmpty) {
 <template>
 	<div class="about" v-if="goOn">
 		<!-- File list -->
-		<FileList :files="tas.files" />
+		<FileList :files="tas.files" subTitle="Files" />
 
 		<!-- THE YIELD, earnings and/or losses -->
-		<Yield :data="rd.data.yield.data" :meta="rd.data.yield.meta" :nativeCurrency="tas.getNativeCurrency" />
+		<Yield
+			:data="rd.data.yield.data"
+			:meta="rd.data.yield.meta"
+			:nativeCurrency="tas.getNativeCurrency"
+			subTitle="Overall"
+		/>
 
 		<!-- Main crypto portfolio -->
 		<CryptoPortfolio
@@ -40,8 +46,12 @@ if (tas.isEmpty) {
 			:bought="rd.data.crypto.bought"
 			:earned="rd.data.crypto.free"
 			:meta="rd.data.crypto.meta"
+			subTitle="Crypto portfolio"
 			v-if="rd.data.crypto.data && rd.data.crypto.meta"
 		/>
+
+		<!-- Exchange rates -->
+		<CryptoRates :data="rd.data.crypto.data" subTitle="Exchange Rates" />
 
 		<!-- Stats about the users investment behaviour -->
 		<UserStats

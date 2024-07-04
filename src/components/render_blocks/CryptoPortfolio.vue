@@ -17,6 +17,9 @@ const props = defineProps({
 	meta: {
 		required: true,
 	},
+	subTitle: {
+		required: true,
+	},
 });
 console.log("props data", props.data);
 console.log("props bought", props.bought);
@@ -49,7 +52,7 @@ console.log(portfolio.value);
 <template>
 	<div class="stat-data-block">
 		<h2>
-			Crypto portfolio
+			{{ props.subTitle }}
 			<span class="cec-important">{{
 				formatCurrency(props.meta.aprox_net_worth) + " " + props.data[0].native_currency
 			}}</span>
