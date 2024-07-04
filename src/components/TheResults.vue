@@ -8,6 +8,7 @@ import DepositStats from "./render_blocks/DepositStats.vue";
 import ListOfCrypto from "./render_blocks/ListOfCrypto.vue";
 import RewardsByType from "./render_blocks/RewardsByType.vue";
 import Yield from "./render_blocks/Yield.vue";
+import FileList from "./render_blocks/FileList.vue";
 
 const tas = useTransactionStore();
 const rd = useRenderDataStore();
@@ -27,6 +28,9 @@ if (tas.isEmpty) {
 
 <template>
 	<div class="about" v-if="goOn">
+		<!-- File list -->
+		<FileList :files="tas.files" />
+
 		<!-- THE YIELD, earnings and/or losses -->
 		<Yield :data="rd.data.yield.data" :meta="rd.data.yield.meta" :nativeCurrency="tas.getNativeCurrency" />
 

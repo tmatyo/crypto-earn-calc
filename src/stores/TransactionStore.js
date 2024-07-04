@@ -7,6 +7,7 @@ import { useRenderDataStore } from "./RenderDataStore";
 export const useTransactionStore = defineStore("transactionStore", {
 	state: () => ({
 		transactions: [],
+		files: [],
 	}),
 	getters: {
 		isEmpty() {
@@ -155,6 +156,9 @@ export const useTransactionStore = defineStore("transactionStore", {
 		addTransactions(transactionList) {
 			this.transactions = transactionList;
 			this.sortItOut();
+		},
+		addFile(file) {
+			this.files.push(file);
 		},
 		sortItOut() {
 			var buyList = [],

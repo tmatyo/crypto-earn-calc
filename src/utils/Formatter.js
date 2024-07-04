@@ -4,7 +4,7 @@
  *
  */
 
-const lang = window.navigator.language || window.navigator.userLanguage;
+export const lang = window.navigator.language || window.navigator.userLanguage;
 
 export function formatCurrency(c) {
 	return new Intl.NumberFormat(lang).format((c * 1).toFixed(2));

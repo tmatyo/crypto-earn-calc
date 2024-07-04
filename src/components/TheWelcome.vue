@@ -56,6 +56,17 @@ function toggleActive(e) {
 					// saving content of each file
 					csv = [...csv, ...res.data];
 
+					// saving stats about the file
+					const { name, type, size, lastModifiedDate } = validFile;
+					tas.value.addFile({
+						name,
+						type,
+						size,
+						lastModifiedDate,
+						dateFrom: res.data[0].timestamp_utc,
+						dateTo: res.data[res.data.length - 1].timestamp_utc,
+					});
+
 					// when all the files were parsed, start calculating
 					if (iterator === validFiles.length - 1) {
 						workWithData(csv);
