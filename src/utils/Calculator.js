@@ -32,7 +32,7 @@ export function getStats(d) {
 }
 
 export function getYield(before, after) {
-	let a = parseInt(before);
+	let a = before * 1;
 
 	if (a === 0) {
 		return {
@@ -41,7 +41,7 @@ export function getYield(before, after) {
 		};
 	}
 
-	let b = parseInt(after);
+	let b = after * 1;
 	let theYield = b - a;
 	let percentage = (100 * theYield) / a;
 

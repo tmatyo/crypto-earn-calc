@@ -14,13 +14,13 @@ const props = defineProps({
 });
 
 const sobject = computed(() => ({
-	"surplus-text": typeof props.percentage !== "undefined" && parseInt(props.percentage) > 0,
-	"deficit-text": typeof props.percentage !== "undefined" && parseInt(props.percentage) < 0,
+	"surplus-text": typeof props.percentage !== "undefined" && props.percentage * 1 > 0,
+	"deficit-text": typeof props.percentage !== "undefined" && props.percentage * 1 < 0,
 }));
 
 const cobject = computed(() => ({
-	surplus: typeof props.percentage !== "undefined" && parseInt(props.percentage) > 0,
-	deficit: typeof props.percentage !== "undefined" && parseInt(props.percentage) < 0,
+	surplus: typeof props.percentage !== "undefined" && props.percentage * 1 > 0,
+	deficit: typeof props.percentage !== "undefined" && props.percentage * 1 < 0,
 	...sobject.value,
 }));
 </script>

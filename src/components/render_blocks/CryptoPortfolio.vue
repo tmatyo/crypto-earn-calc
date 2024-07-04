@@ -11,12 +11,16 @@ const props = defineProps({
 	bought: {
 		required: true,
 	},
+	earned: {
+		required: true,
+	},
 	meta: {
 		required: true,
 	},
 });
 console.log("props data", props.data);
 console.log("props bought", props.bought);
+console.log("props earned", props.earned);
 
 const portfolio = ref([]);
 
@@ -28,8 +32,18 @@ for (const i of props.data) {
 		}
 	}
 
+	if (bf === 0) {
+		for (const k of props.earned) {
+			if (i.currency === k.currency) {
+				bf = k.native_amount;
+			}
+		}
+	}
+
 	portfolio.value.push({ ...i, boughtFor: bf });
 }
+
+console.log(portfolio.value);
 </script>
 
 <template>

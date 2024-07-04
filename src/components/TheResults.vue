@@ -34,6 +34,7 @@ if (tas.isEmpty) {
 		<CryptoPortfolio
 			:data="rd.data.crypto.data"
 			:bought="rd.data.crypto.bought"
+			:earned="rd.data.crypto.free"
 			:meta="rd.data.crypto.meta"
 			v-if="rd.data.crypto.data && rd.data.crypto.meta"
 		/>
