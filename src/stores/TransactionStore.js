@@ -152,8 +152,8 @@ export const useTransactionStore = defineStore("transactionStore", {
 		},
 	},
 	actions: {
-		addTransactions(ta) {
-			this.transactions = ta;
+		addTransactions(transactionList) {
+			this.transactions = transactionList;
 			this.sortItOut();
 		},
 		sortItOut() {

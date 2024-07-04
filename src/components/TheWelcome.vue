@@ -1,12 +1,11 @@
 <script setup>
 import { onMounted, ref, inject } from "vue";
 import { useTransactionStore } from "../stores/TransactionStore";
-import { getRate } from "../utils/ExchangeRates";
+import { uniqBy } from "../utils/Formatter";
 
 const $papa = inject("$papa");
 const $router = inject("$router");
 const files = ref([]);
-const csv = ref({});
 const dropzoneState = ref(false);
 const tas = ref({});
 
@@ -31,42 +30,51 @@ function toggleActive(e) {
 
 	// if there is a file to work with ...
 	if (e.type == "drop" || e.type == "change") {
-		console.log("There is a file to work with");
+		console.log("File(s) were dropped/uploaded");
 		console.log(files);
-		console.log("File name: ", files[0].name);
-		console.log("File type: ", files[0].type);
-		console.log("File size: ", files[0].size);
 
-		// ... and it is in fact a CSV file ...
-		if (files[0].type != "text/csv") {
-			return;
+		let validFiles = [];
+		let csv = [];
+
+		for (const file of files) {
+			console.log(`File: ${file.name}, ${file.type}, size ${file.size}`);
+			if (file.type === "text/csv" && file.name.startsWith("crypto_transactions_record_")) {
+				validFiles.push(file);
+			}
 		}
 
 		// ... parse it with papaparse
-		$papa.parse(files[0], {
-			skipEmptyLines: true,
-			dynamicTyping: true,
-			header: true,
-			transformHeader: function (h) {
-				return h.toLowerCase().replaceAll("(", "").replaceAll(")", "").replaceAll(" ", "_");
-			},
-			complete: function (res) {
-				// saving parsed JSON and handing over to next method for calculations
-				csv.value = res;
-				workWithData();
-			},
-		});
-		console.log("File parsed i guess");
+		for (const [iterator, validFile] of validFiles.entries()) {
+			$papa.parse(validFile, {
+				skipEmptyLines: true,
+				dynamicTyping: true,
+				header: true,
+				transformHeader: function (h) {
+					return h.toLowerCase().replaceAll("(", "").replaceAll(")", "").replaceAll(" ", "_");
+				},
+				complete: function (res) {
+					// saving content of each file
+					csv = [...csv, ...res.data];
+
+					// when all the files were parsed, start calculating
+					if (iterator === validFiles.length - 1) {
+						workWithData(csv);
+					}
+				},
+			});
+		}
+
+		console.log("File(s) parsed i guess");
 	}
 }
 
-const workWithData = () => {
+const workWithData = (csv) => {
 	// TO DO: calculations, render on fancy front end, keep reactivity/interactivity
-	console.log("Data from the file", csv.value.data);
+	csv = uniqBy(csv, "timestamp_utc");
+	csv.sort((x, y) => x.timestamp_utc - y.timestamp_utc);
 
 	// adding state management
-	//var tas = useTransactionStore();
-	tas.value.addTransactions(csv.value.data);
+	tas.value.addTransactions(csv);
 
 	// render fancy report
 	$router.push({ name: "about" });
@@ -91,7 +99,7 @@ onMounted(() => {
 			<p>Drag and drop your CSV file here</p>
 			<span>OR</span>
 			<label for="dd" @click="toggleActive">Choose file</label>
-			<input type="file" id="dd" accept=".csv" @change="toggleActive" />
+			<input type="file" id="dd" accept=".csv" @change="toggleActive" multiple />
 		</div>
 		<div class="upload-footer">
 			<p>HOW IT WORKS:</p>
