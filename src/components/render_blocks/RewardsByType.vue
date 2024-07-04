@@ -1,5 +1,6 @@
 <script setup>
 import { formatCurrency } from "../../utils/Formatter";
+import StatTile from "./StatTile.vue";
 
 const props = defineProps({
 	data: {
@@ -15,10 +16,11 @@ const props = defineProps({
 	<div class="stat-data-block">
 		<h2>{{ props.subTitle }}</h2>
 		<div class="stat-container">
-			<div v-for="d in props.data" class="stat-tile">
-				<p class="data-value">{{ formatCurrency(d.native_amount) + " " + d.native_currency }}</p>
-				<small class="data-desc">{{ d.transaction_description }}</small>
-			</div>
+			<StatTile
+				v-for="d in props.data"
+				:titleText="formatCurrency(d.native_amount) + ' ' + d.native_currency"
+				:subText="d.transaction_description"
+			/>
 		</div>
 	</div>
 </template>

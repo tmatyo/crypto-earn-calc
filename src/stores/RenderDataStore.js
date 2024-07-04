@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import { getYield } from "../utils/Calculator";
 
 export const useRenderDataStore = defineStore("renderDataStore", {
 	state: () => ({
@@ -143,11 +144,16 @@ export const useRenderDataStore = defineStore("renderDataStore", {
 				currentNetWorth += i.current_worth;
 			});
 
+			let yld = getYield(this.data.expenses.meta.sum, currentNetWorth);
+
 			this.data.yield.data = {
 				currentNetWorth,
 				deposited: this.data.expenses.meta.sum,
 				rewarded: this.data.earnings.meta.sum,
-				yield: currentNetWorth - this.data.expenses.meta.sum,
+				yield: yld.amount,
+				yieldInPercentage: yld.percentage,
+				earningPercentage: ((100 * this.data.earnings.meta.sum) / yld.amount).toFixed(2),
+				estimatedTaxes: yld.amount / 5,
 			};
 		},
 	},

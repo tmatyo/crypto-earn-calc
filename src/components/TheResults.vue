@@ -2,7 +2,7 @@
 import { inject } from "vue";
 import { useRenderDataStore } from "../stores/RenderDataStore";
 import { useTransactionStore } from "../stores/TransactionStore";
-import CryptoList from "./render_blocks/CryptoList.vue";
+import CryptoPortfolio from "./render_blocks/CryptoPortfolio.vue";
 import UserStats from "./render_blocks/UserStats.vue";
 import DepositStats from "./render_blocks/DepositStats.vue";
 import ListOfCrypto from "./render_blocks/ListOfCrypto.vue";
@@ -31,8 +31,9 @@ if (tas.isEmpty) {
 		<Yield :data="rd.data.yield.data" :meta="rd.data.yield.meta" :nativeCurrency="tas.getNativeCurrency" />
 
 		<!-- Main crypto portfolio -->
-		<CryptoList
+		<CryptoPortfolio
 			:data="rd.data.crypto.data"
+			:bought="rd.data.crypto.bought"
 			:meta="rd.data.crypto.meta"
 			v-if="rd.data.crypto.data && rd.data.crypto.meta"
 		/>

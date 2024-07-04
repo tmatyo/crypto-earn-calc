@@ -30,3 +30,23 @@ export function getStats(d) {
 
 	return { count, avg, min, minDate, max, maxDate, sum, sortedList: sl };
 }
+
+export function getYield(before, after) {
+	let a = parseInt(before);
+
+	if (a === 0) {
+		return {
+			amount: undefined,
+			percentage: undefined,
+		};
+	}
+
+	let b = parseInt(after);
+	let theYield = b - a;
+	let percentage = (100 * theYield) / a;
+
+	return {
+		amount: theYield,
+		percentage: percentage.toFixed(2),
+	};
+}

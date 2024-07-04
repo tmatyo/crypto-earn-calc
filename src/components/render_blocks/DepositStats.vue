@@ -1,5 +1,6 @@
 <script setup>
 import { formatCurrency } from "../../utils/Formatter";
+import StatTile from "./StatTile.vue";
 
 const props = defineProps({
 	data: {
@@ -18,22 +19,10 @@ const props = defineProps({
 			<span class="cec-important">{{ formatCurrency(data.sum) }} {{ nativeCurrency }}</span>
 		</h2>
 		<div class="stat-container">
-			<div class="stat-tile">
-				<p class="data-value">{{ data.count }}</p>
-				<small class="data-desc">Number of deposits</small>
-			</div>
-			<div class="stat-tile">
-				<p class="data-value">{{ formatCurrency(data.min) }} {{ nativeCurrency }}</p>
-				<small class="data-desc">Smallest deposit</small>
-			</div>
-			<div class="stat-tile">
-				<p class="data-value">{{ formatCurrency(data.max) }} {{ nativeCurrency }}</p>
-				<small class="data-desc">Largest deposit</small>
-			</div>
-			<div class="stat-tile">
-				<p class="data-value">{{ formatCurrency(data.avg) }} {{ nativeCurrency }}</p>
-				<small class="data-desc">Average deposit</small>
-			</div>
+			<StatTile :titleText="data.count" subText="Number of deposits" />
+			<StatTile :titleText="formatCurrency(data.min) + ' ' + nativeCurrency" subText="Smallest deposit" />
+			<StatTile :titleText="formatCurrency(data.max) + ' ' + nativeCurrency" subText="Largest deposit" />
+			<StatTile :titleText="formatCurrency(data.avg) + ' ' + nativeCurrency" subText="Average deposit" />
 		</div>
 	</div>
 </template>
