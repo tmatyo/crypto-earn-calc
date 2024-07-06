@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { getRate, updateRates } from "../utils/ExchangeRates";
+import { updateRates } from "../utils/ExchangeRates";
 import { getStats } from "../utils/Calculator";
 import { useExchangeRateStore } from "./ExchangeRateStore";
 import { useRenderDataStore } from "./RenderDataStore";
@@ -283,9 +283,12 @@ export const useTransactionStore = defineStore("transactionStore", {
 
 			// counting aprox net worth, this will be compared to real data after ajax calls
 			var aproxNetWorth = 0;
+			let assetStringList = [];
 
 			crpt.forEach((p) => {
 				aproxNetWorth += p.native_amount;
+				assetStringList.push(p.currency);
+
 				var i = crptAll.findIndex((b) => b.currency == p.currency);
 
 				if (i == -1) {
@@ -300,7 +303,7 @@ export const useTransactionStore = defineStore("transactionStore", {
 			rd.update("crypto", "data", crptAll);
 			rd.update("crypto", "meta", { aprox_net_worth: aproxNetWorth });
 
-			updateRates();
+			updateRates([...new Set(assetStringList)].toString());
 		},
 	},
 });
