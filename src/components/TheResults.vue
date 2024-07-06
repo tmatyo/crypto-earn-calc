@@ -207,10 +207,25 @@ if (tas.isEmpty) {
 
 .stat-container {
 	display: grid;
-	grid-template-columns: repeat(4, 1fr);
+	grid-template-columns: repeat(1, 1fr);
 	gap: 5px;
 }
 
+@media (min-width: 500px) {
+	.stat-container {
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
+@media (min-width: 940px) {
+	.stat-container {
+		grid-template-columns: repeat(4, 1fr);
+	}
+}
+@media (min-width: 1340px) {
+	.stat-container {
+		grid-template-columns: repeat(6, 1fr);
+	}
+}
 .stat-tile {
 	background-color: var(--brand-color-shade-2);
 	display: flex;
