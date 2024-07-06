@@ -30,8 +30,7 @@ function toggleActive(e) {
 
 	// if there is a file to work with ...
 	if (e.type == "drop" || e.type == "change") {
-		console.log("File(s) were dropped/uploaded");
-		console.log(files);
+		console.log(`${files.length} file(s) were dropped/uploaded. `);
 
 		let validFiles = [];
 		let csv = [];
@@ -42,9 +41,9 @@ function toggleActive(e) {
 				validFiles.push(file);
 			}
 		}
-
+		let iterator = 0;
 		// ... parse it with papaparse
-		for (const [iterator, validFile] of validFiles.entries()) {
+		for (const validFile of validFiles) {
 			$papa.parse(validFile, {
 				skipEmptyLines: true,
 				dynamicTyping: true,
@@ -68,7 +67,8 @@ function toggleActive(e) {
 					});
 
 					// when all the files were parsed, start calculating
-					if (iterator === validFiles.length - 1) {
+					iterator++;
+					if (iterator === validFiles.length) {
 						workWithData(csv);
 					}
 				},
@@ -80,7 +80,6 @@ function toggleActive(e) {
 }
 
 const workWithData = (csv) => {
-	// TO DO: calculations, render on fancy front end, keep reactivity/interactivity
 	csv = uniqBy(csv, "timestamp_utc");
 	csv.sort((x, y) => x.timestamp_utc - y.timestamp_utc);
 
@@ -92,7 +91,6 @@ const workWithData = (csv) => {
 };
 
 onMounted(() => {
-	//getRate('ETH', 'EUR');
 	tas.value = useTransactionStore();
 });
 </script>
