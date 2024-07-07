@@ -41,5 +41,8 @@ table {
 	th {
 		color: #1183d8;
 	}
+	td {
+		text-align: center;
+	}
 }
 </style>

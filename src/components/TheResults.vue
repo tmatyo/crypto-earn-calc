@@ -73,7 +73,7 @@ if (tas.isEmpty) {
 		<!-- List of rewards grouped by reward type -->
 		<RewardsByType :data="rd.data.earnings.byType" :subTitle="`Rewards by type`" />
 
-		<h1>This is an about page</h1>
+		<!-- <h1>This is an about page</h1>
 		<p v-if="!tas.isEmpty">File is uploaded and we CAN work with it :)</p>
 		<p v-if="tas.isEmpty">File is uploaded we CANNOT work with it :(</p>
 		<p>
@@ -136,9 +136,9 @@ if (tas.isEmpty) {
 				{{ r.type }}:
 				<span class="cec-important">{{ r.native_amount.toFixed(2) + " " + tas.getNativeCurrency }}</span>
 			</li>
-		</ul>
+		</ul> -->
 
-		<table class="results">
+		<!-- <table class="results">
 			<tr class="results-header">
 				<th>Timestamp</th>
 				<th>Description</th>
@@ -163,8 +163,11 @@ if (tas.isEmpty) {
 				<td>{{ t.native_amount_in_usd }}</td>
 				<td>{{ t.transaction_kind }}</td>
 			</tr>
-		</table>
+		</table> -->
 	</div>
+	<footer>
+		<p>{{ `© ` + new Date().getFullYear() }}</p>
+	</footer>
 </template>
 
 <style>
@@ -242,5 +245,9 @@ if (tas.isEmpty) {
 
 .stat-tile .data-desc {
 	color: var(--text-sub-color);
+}
+footer p {
+	margin: 30px;
+	text-align: center;
 }
 </style>
